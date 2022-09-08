@@ -1,3 +1,13 @@
+using Microsoft.AspNetCore.Identity;
+using UnqMeterAPI.Models;
+using UnqMeterAPI.Repository;
+using Microsoft.EntityFrameworkCore;
+using UnqMeterAPI.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using UnqMeterAPI.JwtFeatures;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,6 +20,35 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 builder.Services.AddSingleton<IConfiguration>(configuration);
 
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<RepositoryContext>();
+builder.Services.AddDbContext<RepositoryContext>(opts =>
+              opts.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
+
+builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+builder.Services.AddAutoMapper(typeof(Program));
+
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+builder.Services.AddAuthentication(opt =>
+{
+    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["validIssuer"],
+        ValidAudience = jwtSettings["validAudience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+            .GetBytes(jwtSettings.GetSection("securityKey").Value))
+    };
+});
+
+builder.Services.AddScoped<JwtHandler>();
 var app = builder.Build();
 var angularApp = configuration.GetSection("Consumers").GetValue<string>("AngularApp");
 

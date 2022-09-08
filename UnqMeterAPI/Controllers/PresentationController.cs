@@ -17,9 +17,11 @@ namespace UnqMeterAPI.Controllers
         [HttpGet("GetHelloWorld")]
         public IActionResult GetHelloWorld()
         {
-            var message = new Message();
-            message.content = "Hello World";
-            
+            var message = new Message
+            {
+                Content = "Hello World"
+            };
+
             return Ok(message);
         }
     }
