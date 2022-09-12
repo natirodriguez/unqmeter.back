@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using UnqMeterAPI.Models;
 
 namespace UnqMeterAPI.Controllers
 {
@@ -23,6 +24,18 @@ namespace UnqMeterAPI.Controllers
             };
 
             return Ok(message);
+        }
+
+        [HttpGet("GetMisPresentaciones")]
+        public IActionResult GetMisPresentaciones()
+        {
+            var presentacion = new Presentacion();
+            presentacion.nombre = "Presentacion 1";
+
+            IList<Presentacion> presentaciones = new List<Presentacion>();
+            presentaciones.Add(presentacion);
+
+            return Ok(presentaciones);
         }
     }
 }
