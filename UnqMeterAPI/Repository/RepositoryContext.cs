@@ -14,6 +14,9 @@ namespace UnqMeterAPI.Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Presentacion>();
         }
+
+        public virtual DbSet<Presentacion> Presentaciones { get; set; }
     }
 }

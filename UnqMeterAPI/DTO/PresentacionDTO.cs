@@ -1,10 +1,8 @@
-﻿namespace UnqMeterAPI.Models
+﻿namespace UnqMeterAPI.DTO
 {
-    public class Presentacion 
+    public class PresentacionDTO
     {
-        public int Id { get; set; }
         public string Nombre { get; set; }
         public string UsuarioCreador { get; set; }
-
     }
 }

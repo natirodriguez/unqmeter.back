@@ -1,4 +1,7 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using UnqMeterAPI.DTO;
+using UnqMeterAPI.Interfaces;
 using UnqMeterAPI.Models;
 
 namespace UnqMeterAPI.Controllers
@@ -7,35 +10,36 @@ namespace UnqMeterAPI.Controllers
     [Route("api/[controller]")]
     public class PresentationController : ControllerBase
     {
-       
+        private readonly IMapper _mapper;
         private readonly ILogger<PresentationController> _logger;
+        private IRepositoryManager<Presentacion> _presentacionRepository;
 
-        public PresentationController(ILogger<PresentationController> logger)
+        public PresentationController(IMapper mapper, ILogger<PresentationController> logger, IRepositoryManager<Presentacion> presentacionRepository)
         {
+            _mapper = mapper;
             _logger = logger;
+            _presentacionRepository = presentacionRepository;  
         }
 
-        [HttpGet("GetHelloWorld")]
-        public IActionResult GetHelloWorld()
+        [HttpGet("GetMisPresentaciones/{email}")]
+        public IActionResult GetMisPresentaciones(string email)
         {
-            var message = new Message
-            {
-                Content = "Hello World"
-            };
+            var presentacionRepo = _presentacionRepository.GetAll();
+            var presentaciones = presentacionRepo.Where(x => x.UsuarioCreador == email).ToList();
+            IList<PresentacionDTO> presentacionesDTO = new List<PresentacionDTO>(); 
 
-            return Ok(message);
+            if (presentaciones.Count > 0)
+                presentacionesDTO = presentaciones.Select(x => new PresentacionDTO() { Nombre = x.Nombre, UsuarioCreador = x.UsuarioCreador}).ToList();
+
+            return Ok(presentacionesDTO);
         }
 
-        [HttpGet("GetMisPresentaciones")]
-        public IActionResult GetMisPresentaciones()
+        [HttpPost("PostNuevaPresentacion")]
+        public IActionResult PostNuevaPresentacion([FromBody] ExternalAuth externalAuth)
         {
-            var presentacion = new Presentacion();
-            presentacion.nombre = "Presentacion 1";
+            Presentacion presentacion = new Presentacion();
+            return Ok(presentacion);
 
-            IList<Presentacion> presentaciones = new List<Presentacion>();
-            presentaciones.Add(presentacion);
-
-            return Ok(presentaciones);
         }
     }
 }

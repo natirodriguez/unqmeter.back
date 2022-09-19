@@ -25,7 +25,7 @@ builder.Services.AddIdentity<User, IdentityRole>()
 builder.Services.AddDbContext<RepositoryContext>(opts =>
               opts.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
 
-builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+builder.Services.AddScoped(typeof(IRepositoryManager<>), typeof(RepositoryManager<>));
 builder.Services.AddAutoMapper(typeof(Program));
 
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");

@@ -10,6 +10,9 @@ namespace UnqMeterAPI.Mapper
         {
             CreateMap<UserForRegistration, User>()
             .ForMember(u => u.UserName, opt => opt.MapFrom(x => x.Email));
+
+            CreateMap<Presentacion, PresentacionDTO>()
+            .ForMember(p => p.Nombre, opt => opt.MapFrom(x => x.Nombre));
         }
     }
 }
