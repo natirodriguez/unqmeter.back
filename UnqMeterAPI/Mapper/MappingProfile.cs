@@ -12,7 +12,7 @@ namespace UnqMeterAPI.Mapper
             .ForMember(u => u.UserName, opt => opt.MapFrom(x => x.Email));
 
             CreateMap<Presentacion, PresentacionDTO>()
-            .ForMember(p => p.Nombre, opt => opt.MapFrom(x => x.Nombre));
+            .ForMember(p => p.nombre, opt => opt.MapFrom(x => x.Nombre));
         }
     }
 }

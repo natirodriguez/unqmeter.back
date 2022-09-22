@@ -23,6 +23,11 @@ namespace UnqMeterAPI.Repository
             return _repositoryContext.Set<T>();
         }
 
+        public void Add(T t)
+        {
+            _repositoryContext.Add(t);
+        }
+
         public void Save() => _repositoryContext.SaveChanges();
     }
 }

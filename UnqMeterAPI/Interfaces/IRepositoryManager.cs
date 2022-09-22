@@ -7,5 +7,6 @@ namespace UnqMeterAPI.Interfaces
         IQueryable<T> GetAll();
         IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
         void Save();
+        void Add(T t);
     }
 }
