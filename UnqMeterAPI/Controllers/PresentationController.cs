@@ -29,7 +29,7 @@ namespace UnqMeterAPI.Controllers
             IList<PresentacionDTO> presentacionesDTO = new List<PresentacionDTO>(); 
 
             if (presentaciones.Count > 0)
-                presentacionesDTO = presentaciones.Select(x => new PresentacionDTO() { nombre = x.Nombre, usuarioCreador = x.UsuarioCreador}).ToList();
+                presentacionesDTO = presentaciones.Select(x => new PresentacionDTO() { nombre = x.Nombre, fechaCreacion = x.FechaCreacion.ToString("dd/MM/yyyy"), usuarioCreador = x.UsuarioCreador}).ToList();
 
             return Ok(presentacionesDTO);
         }
@@ -42,6 +42,9 @@ namespace UnqMeterAPI.Controllers
                 Presentacion presentacion = new Presentacion();
                 presentacion.Nombre = presentacionDTO.nombre;
                 presentacion.UsuarioCreador = presentacionDTO.usuarioCreador;
+                presentacion.FechaCreacion = DateTime.Now;
+                presentacion.TiempoDeVida = presentacionDTO.tiempoDeVida;
+                presentacion.TipoTiempoDeVida = (TipoTiempoDeVida)presentacionDTO.tipoTiempoDeVida;
 
                 _presentacionRepository.Add(presentacion);
                 _presentacionRepository.Save();
