@@ -163,9 +163,24 @@ namespace UnqMeterAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaFinPresentacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaInicioPresentacion")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TiempoDeVida")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TipoTiempoDeVida")
+                        .HasColumnType("int");
 
                     b.Property<string>("UsuarioCreador")
                         .IsRequired()

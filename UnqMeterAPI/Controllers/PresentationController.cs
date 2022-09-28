@@ -13,12 +13,14 @@ namespace UnqMeterAPI.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<PresentationController> _logger;
         private IRepositoryManager<Presentacion> _presentacionRepository;
+        private IRepositoryManager<Slyde> _slydeRepository; 
 
-        public PresentationController(IMapper mapper, ILogger<PresentationController> logger, IRepositoryManager<Presentacion> presentacionRepository)
+        public PresentationController(IMapper mapper, ILogger<PresentationController> logger, IRepositoryManager<Presentacion> presentacionRepository, IRepositoryManager<Slyde> slydeRepository)
         {
             _mapper = mapper;
             _logger = logger;
             _presentacionRepository = presentacionRepository;  
+            _slydeRepository = slydeRepository;
         }
 
         [HttpGet("GetMisPresentaciones/{email}")]
@@ -48,6 +50,16 @@ namespace UnqMeterAPI.Controllers
 
                 _presentacionRepository.Add(presentacion);
                 _presentacionRepository.Save();
+
+                Slyde slyde = new Slyde()
+                {
+                    TipoPregunta = TipoPregunta.INDEFINIDO,
+                    FechaCreacion = DateTime.Now,
+                    PresentacionId = presentacion.Id
+                };
+
+                _slydeRepository.Add(slyde);
+                _slydeRepository.Save();
 
                 return Ok(presentacion);
             }

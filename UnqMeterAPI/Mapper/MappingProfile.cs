@@ -13,6 +13,9 @@ namespace UnqMeterAPI.Mapper
 
             CreateMap<Presentacion, PresentacionDTO>()
             .ForMember(p => p.nombre, opt => opt.MapFrom(x => x.Nombre));
+
+            CreateMap<Slyde, SlydeDTO>()
+            .ForMember(p => p.Id, opt => opt.MapFrom(x => x.Id));
         }
     }
 }
