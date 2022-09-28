@@ -24,6 +24,22 @@ Método utilizado para obtener todas las presentaciones realizadas por la person
 * <b>POST:</b> /api/Presentation/PostNuevaPresentacion <br>
 Método utilizado para generar una nueva presentación
 
+
+<h4>Creación de tablas en la Base de datos:</h4>
+Las migraciones en Entity Framework nos permite crear o actualizar el modelo de la base de datos. 
+Para poder generar las tablas a partir de las migraciones dadas, lo que debemos hacer es lo siguiente: <br>
+1. Abrir Visual Studio <br>
+2. Abrir la consula de Nuget (nuestro gestor de dependencias): <br>
+     - Tools <br>
+     - Nuget Package Manager<br>
+     - Package Manager Console<br>
+3. Ejecutar <br>
+
+
+```
+Update-Database
+```
+
 <h4>Diagrama de clases: </h4>
 
 ![Untitled Diagram (2)](https://user-images.githubusercontent.com/1548366/192787871-91914275-244b-4dde-838c-f001043ddadc.jpg)
