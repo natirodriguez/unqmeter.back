@@ -155,6 +155,28 @@ namespace UnqMeterAPI.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("UnqMeterAPI.Models.OpcionesSlyde", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Opcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SlydeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SlydeId");
+
+                    b.ToTable("OpcionesSlydes");
+                });
+
             modelBuilder.Entity("UnqMeterAPI.Models.Presentacion", b =>
                 {
                     b.Property<int>("Id")
@@ -189,6 +211,32 @@ namespace UnqMeterAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Presentaciones");
+                });
+
+            modelBuilder.Entity("UnqMeterAPI.Models.Slyde", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PreguntaRealizada")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PresentacionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TipoPregunta")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Slydes");
                 });
 
             modelBuilder.Entity("UnqMeterAPI.Models.User", b =>
@@ -308,6 +356,17 @@ namespace UnqMeterAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("UnqMeterAPI.Models.OpcionesSlyde", b =>
+                {
+                    b.HasOne("UnqMeterAPI.Models.Slyde", "Slyde")
+                        .WithMany()
+                        .HasForeignKey("SlydeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Slyde");
                 });
 #pragma warning restore 612, 618
         }

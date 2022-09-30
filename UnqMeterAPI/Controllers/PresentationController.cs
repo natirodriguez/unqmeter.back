@@ -13,14 +13,17 @@ namespace UnqMeterAPI.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<PresentationController> _logger;
         private IRepositoryManager<Presentacion> _presentacionRepository;
-        private IRepositoryManager<Slyde> _slydeRepository; 
+        private IRepositoryManager<Slyde> _slydeRepository;
+        private IRepositoryManager<OpcionesSlyde> _opcionesSlydeRepository;
 
-        public PresentationController(IMapper mapper, ILogger<PresentationController> logger, IRepositoryManager<Presentacion> presentacionRepository, IRepositoryManager<Slyde> slydeRepository)
+        public PresentationController(IMapper mapper, ILogger<PresentationController> logger, IRepositoryManager<Presentacion> presentacionRepository, IRepositoryManager<Slyde> slydeRepository, 
+            IRepositoryManager<OpcionesSlyde> opcionesSlydeRepository)
         {
             _mapper = mapper;
             _logger = logger;
             _presentacionRepository = presentacionRepository;  
             _slydeRepository = slydeRepository;
+            _opcionesSlydeRepository = opcionesSlydeRepository;
         }
 
         [HttpGet("GetMisPresentaciones/{email}")]
