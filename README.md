@@ -1,4 +1,4 @@
-# UNQMeter - FrontEnd
+# UNQMeter - BackEnd
 <h4>Decisiones de desarrollo:</h4> 
 
 * c# v.10
@@ -24,21 +24,40 @@ Método utilizado para obtener todas las presentaciones realizadas por la person
 * <b>POST:</b> /api/Presentation/PostNuevaPresentacion <br>
 Método utilizado para generar una nueva presentación
 
+<br/>
 
-<h4>Creación de tablas en la Base de datos:</h4>
-Las migraciones en Entity Framework nos permite crear o actualizar el modelo de la base de datos. 
-Para poder generar las tablas a partir de las migraciones dadas, lo que debemos hacer es lo siguiente: <br>
-1. Abrir Visual Studio <br>
-2. Abrir la consula de Nuget (nuestro gestor de dependencias): <br>
-     - Tools <br>
-     - Nuget Package Manager<br>
-     - Package Manager Console<br>
-3. Ejecutar <br>
+## Instalación ambiente de desarollo
 
+### Prerequisitos
+Necesitamos tener instalado las siguientes herramientas:
 
+* [Visual Studio 2019 o 2022](https://visualstudio.microsoft.com/downloads/)
+* [.Net 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+* [Sql server 2017 o posterior](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) 
+
+<br/>
+
+### Instalación
+Sigue estos pasos para instalar el ambiente de desarrollo:
+
+1. Modifique la propiedad ConnectionStrings en el archivo ```appsettings.json``` para que apunte a su instancia local de SQL Server. 
+
+2. Clonar el repositorio [UnqMeterBack](https://github.com/natirodriguez/unqmeter.back)
+3. En el directorio raíz restaure los paquetes ejecutando:
+```csharp
+dotnet restore
 ```
-Update-Database
+4. Compile la solución ejecutando:
+```csharp
+dotnet build
 ```
+5. Luego dentro del directorio inicie el backend ejecutando:
+```csharp
+dotnet run
+```
+
+6. Inicie https://localhost:7054/swagger en su navegador para ver la interfaz de Swagger.
+<br/>
 
 <h4>Diagrama de clases: </h4>
 
