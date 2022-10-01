@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using UnqMeterAPI.DTO;
 using UnqMeterAPI.Interfaces;
 using UnqMeterAPI.Models;
+using UnqMeterAPI.Services;
 
 namespace UnqMeterAPI.Controllers
 {
@@ -10,31 +11,20 @@ namespace UnqMeterAPI.Controllers
     [Route("api/[controller]")]
     public class PresentationController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly ILogger<PresentationController> _logger;
-        private IRepositoryManager<Presentacion> _presentacionRepository;
-        private IRepositoryManager<Slyde> _slydeRepository;
-        private IRepositoryManager<OpcionesSlyde> _opcionesSlydeRepository;
+        private IPresentacionService _presentacionService;
 
         public PresentationController(IMapper mapper, ILogger<PresentationController> logger, IRepositoryManager<Presentacion> presentacionRepository, IRepositoryManager<Slyde> slydeRepository, 
             IRepositoryManager<OpcionesSlyde> opcionesSlydeRepository)
         {
-            _mapper = mapper;
             _logger = logger;
-            _presentacionRepository = presentacionRepository;  
-            _slydeRepository = slydeRepository;
-            _opcionesSlydeRepository = opcionesSlydeRepository;
+            _presentacionService = new PresentacionService(mapper, presentacionRepository, slydeRepository, opcionesSlydeRepository);
         }
 
         [HttpGet("GetMisPresentaciones/{email}")]
         public IActionResult GetMisPresentaciones(string email)
         {
-            var presentacionRepo = _presentacionRepository.GetAll().ToList();
-            var presentaciones = presentacionRepo.Where(x => x.UsuarioCreador == email).ToList();
-            IList<PresentacionDTO> presentacionesDTO = new List<PresentacionDTO>(); 
-
-            if (presentaciones.Count > 0)
-                presentacionesDTO = presentaciones.Select(x => new PresentacionDTO() { nombre = x.Nombre, fechaCreacion = x.FechaCreacion.ToString("dd/MM/yyyy"), usuarioCreador = x.UsuarioCreador}).ToList();
+            IList<PresentacionDTO> presentacionesDTO = _presentacionService.GetMisPresentaciones(email); 
 
             return Ok(presentacionesDTO);
         }
@@ -44,26 +34,7 @@ namespace UnqMeterAPI.Controllers
         {
             try
             {
-                Presentacion presentacion = new Presentacion();
-                presentacion.Nombre = presentacionDTO.nombre;
-                presentacion.UsuarioCreador = presentacionDTO.usuarioCreador;
-                presentacion.FechaCreacion = DateTime.Now;
-                presentacion.TiempoDeVida = presentacionDTO.tiempoDeVida;
-                presentacion.TipoTiempoDeVida = (TipoTiempoDeVida)presentacionDTO.tipoTiempoDeVida;
-
-                _presentacionRepository.Add(presentacion);
-                _presentacionRepository.Save();
-
-                Slyde slyde = new Slyde()
-                {
-                    TipoPregunta = TipoPregunta.INDEFINIDO,
-                    FechaCreacion = DateTime.Now,
-                    PresentacionId = presentacion.Id
-                };
-
-                _slydeRepository.Add(slyde);
-                _slydeRepository.Save();
-
+                Presentacion presentacion = _presentacionService.CrearNuevaPresentacion(presentacionDTO);
                 return Ok(presentacion);
             }
             catch (Exception e)
