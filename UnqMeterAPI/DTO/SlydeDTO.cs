@@ -7,5 +7,6 @@
         public string PreguntaRealizada { get; set; }
         public int? TipoPregunta { get; set; }
         public DateTime FechaCreacion { get; set; }
+        public int? CantMaxRespuestaParticipantes { get; set; }
     }
 }
