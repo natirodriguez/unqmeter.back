@@ -9,6 +9,8 @@
 * Bootstrap
 * angularx-social-login
 * Swagger
+* Test: NUnit y Mock
+* Docker
 
 Hemos decidido trabajar con lo mencionado anteriormente, ya que ambos trabajamos actualmente en ello y nos sentimos comodos utilizando estas herramientas. Evitando de esta forma, el tener que aprender o familiarizarse de nuevo con un lenguaje o framework web. 
 
