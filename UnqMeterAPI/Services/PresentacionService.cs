@@ -28,9 +28,24 @@ namespace UnqMeterAPI.Services
             IList<PresentacionDTO> presentacionesDTO = new List<PresentacionDTO>();
 
             if (presentaciones.Count > 0)
-                presentacionesDTO = presentaciones.Select(x => new PresentacionDTO() { nombre = x.Nombre, fechaCreacion = x.FechaCreacion.ToString("dd/MM/yyyy"), usuarioCreador = x.UsuarioCreador }).ToList();
+                presentacionesDTO = presentaciones.Select(x => new PresentacionDTO() {id = x.Id, nombre = x.Nombre, fechaCreacion = x.FechaCreacion.ToString("dd/MM/yyyy"), usuarioCreador = x.UsuarioCreador }).ToList();
 
             return presentacionesDTO;
+        }
+
+        public PresentacionDTO GetPresentacion(int id)
+        {
+            Presentacion? presentacion = _presentacionRepository.FindBy(x => x.Id == id).FirstOrDefault();
+            PresentacionDTO presentacionDTO = new PresentacionDTO();
+
+            if (presentacion != null)
+            {
+                presentacionDTO.id = presentacion.Id;
+                presentacionDTO.nombre = presentacion.Nombre;
+                presentacionDTO.fechaCreacion = presentacion.FechaCreacion.ToString("dd/MM/yyyy");
+                presentacionDTO.usuarioCreador = presentacion.UsuarioCreador;
+            }
+            return presentacionDTO;
         }
 
         public Presentacion CrearNuevaPresentacion(PresentacionDTO presentacionDTO)

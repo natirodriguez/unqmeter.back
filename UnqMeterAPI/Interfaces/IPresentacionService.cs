@@ -7,5 +7,7 @@ namespace UnqMeterAPI.Interfaces
     {
         IList<PresentacionDTO> GetMisPresentaciones(string email);
         Presentacion CrearNuevaPresentacion(PresentacionDTO presentacionDTO);
+        PresentacionDTO GetPresentacion(int id);
+
     }
 }

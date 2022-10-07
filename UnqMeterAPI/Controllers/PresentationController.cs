@@ -29,6 +29,14 @@ namespace UnqMeterAPI.Controllers
             return Ok(presentacionesDTO);
         }
 
+        [HttpGet("GetPresentacion/{id}")]
+        public IActionResult GetPresentacion(int id)
+        {
+            PresentacionDTO presentacionDTO = _presentacionService.GetPresentacion(id);
+
+            return Ok(presentacionDTO);
+        }
+
         [HttpPost("PostNuevaPresentacion")]
         public IActionResult PostNuevaPresentacion([FromBody] PresentacionDTO presentacionDTO)
         {
