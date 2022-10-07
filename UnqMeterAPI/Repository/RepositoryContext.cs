@@ -17,10 +17,14 @@ namespace UnqMeterAPI.Repository
             modelBuilder.Entity<Presentacion>();
             modelBuilder.Entity<Slyde>();
             modelBuilder.Entity<OpcionesSlyde>();
+            modelBuilder.Entity<Respuesta>();
+            modelBuilder.Entity<DescripcionRespuesta>(); 
         }
 
         public virtual DbSet<Presentacion> Presentaciones { get; set; }
         public virtual DbSet<Slyde> Slydes { get; set; }
-        public virtual DbSet<OpcionesSlyde> OpcionesSlydes { get; set; }   
+        public virtual DbSet<OpcionesSlyde> OpcionesSlydes { get; set; }
+        public virtual DbSet<Respuesta> Respuestas { get; set; }
+        public virtual DbSet<DescripcionRespuesta> DescripcionRespuestas { get; set; }
     }
 }

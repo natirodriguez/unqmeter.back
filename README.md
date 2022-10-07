@@ -9,6 +9,8 @@
 * Bootstrap
 * angularx-social-login
 * Swagger
+* Test: NUnit y Mock
+* Docker
 
 Hemos decidido trabajar con lo mencionado anteriormente, ya que ambos trabajamos actualmente en ello y nos sentimos comodos utilizando estas herramientas. Evitando de esta forma, el tener que aprender o familiarizarse de nuevo con un lenguaje o framework web. 
 
@@ -61,4 +63,6 @@ dotnet run
 
 <h4>Diagrama de clases: </h4>
 
-![Untitled Diagram (2)](https://user-images.githubusercontent.com/1548366/192787871-91914275-244b-4dde-838c-f001043ddadc.jpg)
+![Untitled Diagram (3)](https://user-images.githubusercontent.com/1548366/193464258-ee132e87-a796-4749-8006-175292dc06f0.jpg)
+
+

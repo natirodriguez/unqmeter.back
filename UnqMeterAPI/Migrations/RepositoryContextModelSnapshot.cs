@@ -213,6 +213,40 @@ namespace UnqMeterAPI.Migrations
                     b.ToTable("Presentaciones");
                 });
 
+            modelBuilder.Entity("UnqMeterAPI.Models.Respuesta", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OpcionElegidaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Participante")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SlydeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OpcionElegidaId");
+
+                    b.HasIndex("SlydeId");
+
+                    b.ToTable("Respuestas");
+                });
+
             modelBuilder.Entity("UnqMeterAPI.Models.Slyde", b =>
                 {
                     b.Property<int>("Id")
@@ -220,6 +254,9 @@ namespace UnqMeterAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CantMaxRespuestaParticipantes")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
@@ -365,6 +402,25 @@ namespace UnqMeterAPI.Migrations
                         .HasForeignKey("SlydeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Slyde");
+                });
+
+            modelBuilder.Entity("UnqMeterAPI.Models.Respuesta", b =>
+                {
+                    b.HasOne("UnqMeterAPI.Models.OpcionesSlyde", "OpcionElegida")
+                        .WithMany()
+                        .HasForeignKey("OpcionElegidaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UnqMeterAPI.Models.Slyde", "Slyde")
+                        .WithMany()
+                        .HasForeignKey("SlydeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OpcionElegida");
 
                     b.Navigation("Slyde");
                 });

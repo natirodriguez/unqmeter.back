@@ -16,6 +16,9 @@ namespace UnqMeterAPI.Test
         private Mock<IRepositoryManager<Slyde>> _repositorySlydeMocker;
         private Mock<IRepositoryManager<OpcionesSlyde>> _repositoryOpcionesSlydeMocker;
 
+        IList<Presentacion> presentaciones;
+        string USUARIO_CREADOR = "practicas.des.soft@mail.com"; 
+
         [SetUp]
         public void SetUp()
         {
@@ -25,38 +28,34 @@ namespace UnqMeterAPI.Test
             _repositoryOpcionesSlydeMocker = new Mock<IRepositoryManager<OpcionesSlyde>>();
 
             _presentacionService = new PresentacionService(_mockMapper.Object, _repositoryPresentacionMocker.Object, _repositorySlydeMocker.Object, _repositoryOpcionesSlydeMocker.Object);
-        }
 
-        [Test]
-        public void GetMisPresentaciones_ListaVacia()
-        {
-            IList<Presentacion> presentaciones = new List<Presentacion>(); 
-            _repositoryPresentacionMocker.Setup(x => x.GetAll()).Returns(presentaciones.AsQueryable());
-            var result = _presentacionService.GetMisPresentaciones("nrodriguez@mail.com");
-
-            Assert.AreEqual(0, result.Count);
+            presentaciones = new List<Presentacion>();
         }
 
         [Test]
         public void GetMisPresentaciones_NoEncuentraDatos()
         {
-            IList<Presentacion> presentaciones = new List<Presentacion>() { new Presentacion() { UsuarioCreador= "nataliarodriguez@mail.com"} };
+            presentaciones.Add(GetPresentacion());
             _repositoryPresentacionMocker.Setup(x => x.GetAll()).Returns(presentaciones.AsQueryable());
             var result = _presentacionService.GetMisPresentaciones("nrodriguez@mail.com");
 
             Assert.AreEqual(0, result.Count);
         }
 
-
         [Test]
         public void GetMisPresentaciones_EncuentraDatos()
         {
-            IList<Presentacion> presentaciones = new List<Presentacion>() { new Presentacion() { UsuarioCreador = "nrodriguez@mail.com", Nombre="Presentacion test" } };
+            presentaciones.Add(GetPresentacion());
             _repositoryPresentacionMocker.Setup(x => x.GetAll()).Returns(presentaciones.AsQueryable());
-            var result = _presentacionService.GetMisPresentaciones("nrodriguez@mail.com");
+            var result = _presentacionService.GetMisPresentaciones(USUARIO_CREADOR);
 
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual("Presentacion test", result.First().nombre);
+        }
+
+        private Presentacion GetPresentacion()
+        {
+            return new Presentacion() { UsuarioCreador = USUARIO_CREADOR, Nombre = "Presentacion test" };
         }
     }
 }

@@ -19,6 +19,7 @@ namespace UnqMeterAPI.Migrations
                     TipoPregunta = table.Column<int>(nullable: false),
                     FechaCreacion = table.Column<DateTime>(type: "datetime", nullable: false),
                     PresentacionID = table.Column<int>(nullable: false),
+                    CantMaxRespuestaParticipantes = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
