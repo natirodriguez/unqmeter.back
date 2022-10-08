@@ -60,17 +60,61 @@ namespace UnqMeterAPI.Services
             _presentacionRepository.Add(presentacion);
             _presentacionRepository.Save();
 
+            CrearNuevaSlyde(presentacion.Id);
+
+            return presentacion;
+        }
+
+        public Slyde CrearNuevaSlyde(int idPresentacion)
+        {
             Slyde slyde = new Slyde()
             {
                 TipoPregunta = TipoPregunta.INDEFINIDO,
                 FechaCreacion = DateTime.Now,
-                PresentacionId = presentacion.Id
+                PresentacionId = idPresentacion
             };
 
             _slydeRepository.Add(slyde);
             _slydeRepository.Save();
 
-            return presentacion;
+            return slyde; 
+        }
+
+        public List<Slyde> GetSlydesByIdPresentacion(long idPresentacion)
+        {
+            return _slydeRepository.FindBy(x => x.PresentacionId == idPresentacion).ToList();
+        }
+
+        public List<OpcionesSlyde> GetOpcionesByIdSlyde(int idSlide)
+        {
+            return _opcionesSlydeRepository.FindBy(x => x.Slyde.Id == idSlide).ToList();
+        }
+
+        public void ClonarPresentacion(long id)
+        {
+            Presentacion? presentacion = _presentacionRepository.FindBy(x => x.Id == id).FirstOrDefault();
+            if (presentacion != null)
+            {
+                Presentacion presentacionClone = presentacion.Clone();
+
+                _presentacionRepository.Add(presentacionClone);
+                _presentacionRepository.Save();
+
+                foreach (Slyde slyde in GetSlydesByIdPresentacion(id))
+                {
+                    Slyde slydeClone = slyde.Clone(presentacionClone.Id);
+
+                    _slydeRepository.Add(slydeClone);
+                    _slydeRepository.Save();
+
+                    foreach(OpcionesSlyde opcionSlyde in GetOpcionesByIdSlyde(slyde.Id))
+                    {
+                        OpcionesSlyde opcionSlydeCopy = opcionSlyde.Clone(slydeClone);
+                        _opcionesSlydeRepository.Add(opcionSlydeCopy);
+                        _opcionesSlydeRepository.Save();
+                    }
+                }
+            }
         }
     }
 }

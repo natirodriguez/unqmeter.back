@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using UnqMeterAPI.DTO;
 using UnqMeterAPI.Interfaces;
 using UnqMeterAPI.Models;
@@ -44,6 +45,21 @@ namespace UnqMeterAPI.Controllers
             {
                 Presentacion presentacion = _presentacionService.CrearNuevaPresentacion(presentacionDTO);
                 return Ok(presentacion);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.StackTrace);
+            }
+        }
+
+        [HttpPost("PostClonarPresentacion")]
+        public IActionResult ClonarPresentacion([FromBody] int id)
+        {
+            try
+            {
+                _presentacionService.ClonarPresentacion(id);
+
+                return Ok();
             }
             catch (Exception e)
             {

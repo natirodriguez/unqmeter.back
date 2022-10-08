@@ -4,10 +4,20 @@
     {
         public int Id { get; set; }
         public int PresentacionId { get; set; }
-        public string PreguntaRealizada { get; set; }
+        public string? PreguntaRealizada { get; set; }
         public TipoPregunta? TipoPregunta { get; set; }
         public DateTime FechaCreacion { get; set; }
         public int? CantMaxRespuestaParticipantes { get; set; }
+
+        public Slyde Clone(int idPresentacion)
+        {
+            Slyde slydeCopy = (Slyde)this.MemberwiseClone();
+            slydeCopy.Id = 0;
+            slydeCopy.FechaCreacion = DateTime.Now;
+            slydeCopy.PresentacionId = idPresentacion;
+
+            return slydeCopy;
+        }
     }
 
     public enum TipoPregunta

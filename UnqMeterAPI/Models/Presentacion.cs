@@ -1,6 +1,6 @@
 ﻿namespace UnqMeterAPI.Models
 {
-    public class Presentacion 
+    public class Presentacion
     {
         public int Id { get; set; }
         public string? Nombre { get; set; }
@@ -10,6 +10,18 @@
         public TipoTiempoDeVida TipoTiempoDeVida { get; set; }
         public DateTime? FechaInicioPresentacion{ get; set; }
         public DateTime? FechaFinPresentacion { get; set; }
+
+        public Presentacion Clone()
+        {
+            Presentacion presentacionCopia = (Presentacion)this.MemberwiseClone();
+            presentacionCopia.Id = 0;
+            presentacionCopia.Nombre += " Copy";
+            presentacionCopia.FechaCreacion = DateTime.Now;
+            presentacionCopia.FechaInicioPresentacion = null;
+            presentacionCopia.FechaFinPresentacion = null;
+
+            return presentacionCopia;
+        }
     }
 
     public enum TipoTiempoDeVida
