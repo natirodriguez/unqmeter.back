@@ -60,18 +60,18 @@ namespace UnqMeterAPI.Services
             _presentacionRepository.Add(presentacion);
             _presentacionRepository.Save();
 
-            CrearNuevaSlyde(presentacion.Id);
+            CrearNuevaSlyde(presentacion);
 
             return presentacion;
         }
 
-        public Slyde CrearNuevaSlyde(int idPresentacion)
+        public Slyde CrearNuevaSlyde(Presentacion presentacion)
         {
             Slyde slyde = new Slyde()
             {
                 TipoPregunta = TipoPregunta.INDEFINIDO,
                 FechaCreacion = DateTime.Now,
-                PresentacionId = idPresentacion
+                Presentacion = presentacion
             };
 
             _slydeRepository.Add(slyde);
@@ -82,7 +82,7 @@ namespace UnqMeterAPI.Services
 
         public List<Slyde> GetSlydesByIdPresentacion(long idPresentacion)
         {
-            return _slydeRepository.FindBy(x => x.PresentacionId == idPresentacion).ToList();
+            return _slydeRepository.FindBy(x => x.Presentacion.Id == idPresentacion).ToList();
         }
 
         public List<OpcionesSlyde> GetOpcionesByIdSlyde(int idSlide)
@@ -102,7 +102,7 @@ namespace UnqMeterAPI.Services
 
                 foreach (Slyde slyde in GetSlydesByIdPresentacion(id))
                 {
-                    Slyde slydeClone = slyde.Clone(presentacionClone.Id);
+                    Slyde slydeClone = slyde.Clone();
 
                     _slydeRepository.Add(slydeClone);
                     _slydeRepository.Save();

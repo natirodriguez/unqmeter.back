@@ -24,6 +24,11 @@ namespace UnqMeterAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Slydes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Slyde_Presentaciones_PresentacionId",
+                        column: x => x.PresentacionID,
+                        principalTable: "Presentaciones",
+                        principalColumn: "Id");
                 });
         }
 
