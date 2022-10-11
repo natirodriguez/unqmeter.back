@@ -1,4 +1,5 @@
 ﻿using UnqMeterAPI.DTO;
+using UnqMeterAPI.Enums;
 using UnqMeterAPI.Models;
 
 namespace UnqMeterAPI.Interfaces
@@ -9,5 +10,6 @@ namespace UnqMeterAPI.Interfaces
         Presentacion CrearNuevaPresentacion(PresentacionDTO presentacionDTO);
         PresentacionDTO GetPresentacion(int id);
         void ClonarPresentacion(long id);
+        IList<TipoPreguntaDTO> GetTipoPreguntas();
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace UnqMeterAPI.Models
+﻿using UnqMeterAPI.Enums;
+
+namespace UnqMeterAPI.Models
 {
     public class Slyde
     {
@@ -19,9 +21,4 @@
         }
     }
 
-    public enum TipoPregunta
-    {
-        INDEFINIDO = 0,
-        MUTIPLE_CHOISE = 1
-    }
 }

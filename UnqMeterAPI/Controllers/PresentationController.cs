@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using UnqMeterAPI.DTO;
+using UnqMeterAPI.Enums;
 using UnqMeterAPI.Interfaces;
 using UnqMeterAPI.Models;
 using UnqMeterAPI.Services;
@@ -36,6 +37,14 @@ namespace UnqMeterAPI.Controllers
             PresentacionDTO presentacionDTO = _presentacionService.GetPresentacion(id);
 
             return Ok(presentacionDTO);
+        }
+
+        [HttpGet("GetTipoPreguntas")]
+        public IActionResult GetTipoPreguntas()
+        {
+            IList<TipoPreguntaDTO> tipos = _presentacionService.GetTipoPreguntas();
+
+            return Ok(tipos);
         }
 
         [HttpPost("PostNuevaPresentacion")]

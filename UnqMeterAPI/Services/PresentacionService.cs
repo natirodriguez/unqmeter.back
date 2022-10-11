@@ -2,6 +2,8 @@
 using AutoMapper;
 using UnqMeterAPI.DTO;
 using UnqMeterAPI.Models;
+using System.Collections.ObjectModel;
+using UnqMeterAPI.Enums;
 
 namespace UnqMeterAPI.Services
 {
@@ -115,6 +117,18 @@ namespace UnqMeterAPI.Services
                     }
                 }
             }
+        }
+
+        public IList<TipoPreguntaDTO> GetTipoPreguntas()
+        {
+            var tipos = new Collection<TipoPreguntaDTO>();
+
+            tipos.Add(new TipoPreguntaDTO() { Descripcion = TipoPregunta.MULTIPLE_CHOICE.GetEnumDescription(), Codigo = TipoPregunta.MULTIPLE_CHOICE});
+            tipos.Add(new TipoPreguntaDTO() { Descripcion = TipoPregunta.WORK_CLOUD.GetEnumDescription(), Codigo = TipoPregunta.WORK_CLOUD });
+            tipos.Add(new TipoPreguntaDTO() { Descripcion = TipoPregunta.RANKING.GetEnumDescription(), Codigo = TipoPregunta.RANKING });
+            tipos.Add(new TipoPreguntaDTO() { Descripcion = TipoPregunta.TEXTO_ABIERTO.GetEnumDescription(), Codigo = TipoPregunta.TEXTO_ABIERTO });
+
+            return tipos;
         }
     }
 }
