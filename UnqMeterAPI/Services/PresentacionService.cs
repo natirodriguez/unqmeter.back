@@ -104,7 +104,7 @@ namespace UnqMeterAPI.Services
 
                 foreach (Slyde slyde in GetSlydesByIdPresentacion(id))
                 {
-                    Slyde slydeClone = slyde.Clone();
+                    Slyde slydeClone = slyde.Clone(presentacionClone);
 
                     _slydeRepository.Add(slydeClone);
                     _slydeRepository.Save();
