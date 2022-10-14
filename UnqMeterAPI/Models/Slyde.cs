@@ -11,12 +11,21 @@ namespace UnqMeterAPI.Models
         public DateTime FechaCreacion { get; set; }
         public int? CantMaxRespuestaParticipantes { get; set; }
 
+        public List<OpcionesSlyde> OpcionesSlydes { get; set; }
+
         public Slyde Clone(Presentacion presentacion)
         {
             Slyde slydeCopy = (Slyde)this.MemberwiseClone();
             slydeCopy.Id = 0;
             slydeCopy.FechaCreacion = DateTime.Now;
             slydeCopy.Presentacion = presentacion;
+
+            slydeCopy.OpcionesSlydes = new List<OpcionesSlyde>();
+
+            foreach (OpcionesSlyde opc in OpcionesSlydes)
+            {
+                slydeCopy.OpcionesSlydes.Add(opc.Clone(slydeCopy));
+            }
 
             return slydeCopy;
         }
