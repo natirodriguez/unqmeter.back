@@ -11,5 +11,6 @@ namespace UnqMeterAPI.Interfaces
         PresentacionDTO GetPresentacion(int id);
         void ClonarPresentacion(long id);
         IList<TipoPreguntaDTO> GetTipoPreguntas();
+        Presentacion CompartirPresentacion(long id);
     }
 }

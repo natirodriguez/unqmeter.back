@@ -1,4 +1,6 @@
-﻿namespace UnqMeterAPI.Models
+﻿using System.ComponentModel;
+
+namespace UnqMeterAPI.Models
 {
     public class Presentacion
     {
@@ -26,7 +28,9 @@
 
     public enum TipoTiempoDeVida
     {
+        [Description("Horas")] 
         HORA = 1,  
+        [Description("Dias")]
         DIA = 2
     }
 }

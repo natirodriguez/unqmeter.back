@@ -75,5 +75,19 @@ namespace UnqMeterAPI.Controllers
                 throw new Exception(e.StackTrace);
             }
         }
+
+        [HttpPost("PostCompartirPresentacion")]
+        public IActionResult CompartirPresentacion([FromBody] int id)
+        {
+            try
+            {
+                Presentacion presentacion = _presentacionService.CompartirPresentacion(id); 
+                return Ok(presentacion);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.StackTrace);
+            }
+        }
     }
 }
