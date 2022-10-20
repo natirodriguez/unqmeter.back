@@ -62,16 +62,16 @@ namespace UnqMeterAPI.Services
             _presentacionRepository.Add(presentacion);
             _presentacionRepository.Save();
 
-            CrearNuevaSlyde(presentacion);
+            CrearNuevaSlyde(presentacion, TipoPregunta.WORK_CLOUD);
 
             return presentacion;
         }
 
-        public Slyde CrearNuevaSlyde(Presentacion presentacion)
+        public Slyde CrearNuevaSlyde(Presentacion presentacion, TipoPregunta? questionType)
         {
             Slyde slyde = new Slyde()
             {
-                TipoPregunta = TipoPregunta.INDEFINIDO,
+                TipoPregunta = questionType,
                 FechaCreacion = DateTime.Now,
                 Presentacion = presentacion
             };
@@ -79,7 +79,7 @@ namespace UnqMeterAPI.Services
             _slydeRepository.Add(slyde);
             _slydeRepository.Save();
 
-            return slyde; 
+            return slyde;
         }
 
         public List<Slyde> GetSlydesByIdPresentacion(long idPresentacion)
@@ -128,6 +128,10 @@ namespace UnqMeterAPI.Services
             tipos.Add(new TipoPreguntaDTO() { Descripcion = TipoPregunta.TEXTO_ABIERTO.GetEnumDescription(), Codigo = TipoPregunta.TEXTO_ABIERTO });
 
             return tipos;
+        }
+        public Presentacion GetPresentationModel(int id)
+        {
+            return _presentacionRepository.FindBy(x => x.Id == id).First();
         }
     }
 }

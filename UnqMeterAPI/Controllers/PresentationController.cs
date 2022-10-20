@@ -47,6 +47,14 @@ namespace UnqMeterAPI.Controllers
             return Ok(tipos);
         }
 
+        [HttpGet("GetSlydesByIdPresentation/{presentationId}")]
+        public IActionResult GetSlydesByIdPresentation(long presentationId)
+        {
+            IList<Slyde> slydes = _presentacionService.GetSlydesByIdPresentacion(presentationId);
+
+            return Ok(slydes);
+        }
+
         [HttpPost("PostNuevaPresentacion")]
         public IActionResult PostNuevaPresentacion([FromBody] PresentacionDTO presentacionDTO)
         {
@@ -69,6 +77,24 @@ namespace UnqMeterAPI.Controllers
                 _presentacionService.ClonarPresentacion(id);
 
                 return Ok();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.StackTrace);
+            }
+        }
+
+        [HttpPost("SaveSlyde")]
+        public IActionResult SaveSlyde([FromBody] SlydeDTO slyde)
+        {
+            try
+            {
+                Presentacion presentacion = _presentacionService.GetPresentationModel(slyde.PresentacionId);
+                var questionType = (TipoPregunta?)slyde.TipoPregunta;
+
+                Slyde newSlyde = _presentacionService.CrearNuevaSlyde(presentacion, questionType);
+
+                return Ok(newSlyde);
             }
             catch (Exception e)
             {

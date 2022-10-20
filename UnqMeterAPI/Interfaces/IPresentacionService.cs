@@ -9,7 +9,11 @@ namespace UnqMeterAPI.Interfaces
         IList<PresentacionDTO> GetMisPresentaciones(string email);
         Presentacion CrearNuevaPresentacion(PresentacionDTO presentacionDTO);
         PresentacionDTO GetPresentacion(int id);
+        Presentacion GetPresentationModel(int id);
         void ClonarPresentacion(long id);
         IList<TipoPreguntaDTO> GetTipoPreguntas();
+        List<Slyde> GetSlydesByIdPresentacion(long idPresentacion);
+        Slyde CrearNuevaSlyde(Presentacion presentacion, TipoPregunta? questionType);
+
     }
 }
