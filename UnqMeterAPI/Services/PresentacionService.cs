@@ -4,6 +4,7 @@ using UnqMeterAPI.DTO;
 using UnqMeterAPI.Models;
 using System.Collections.ObjectModel;
 using UnqMeterAPI.Enums;
+using System.Linq;
 
 namespace UnqMeterAPI.Services
 {
@@ -30,7 +31,8 @@ namespace UnqMeterAPI.Services
             IList<PresentacionDTO> presentacionesDTO = new List<PresentacionDTO>();
 
             if (presentaciones.Count > 0)
-                presentacionesDTO = presentaciones.Select(x => new PresentacionDTO() {id = x.Id, nombre = x.Nombre, fechaCreacion = x.FechaCreacion.ToString("dd/MM/yyyy"), usuarioCreador = x.UsuarioCreador }).ToList();
+                presentacionesDTO = presentaciones.Select(x => new PresentacionDTO(x.Id, x.Nombre, x.FechaCreacion.ToString("dd/MM/yyyy"), x.UsuarioCreador, x.TiempoDeVida, 
+                    (int)x.TipoTiempoDeVida, x.TipoTiempoDeVida.GetEnumDescription())).ToList();
 
             return presentacionesDTO;
         }
@@ -46,6 +48,9 @@ namespace UnqMeterAPI.Services
                 presentacionDTO.nombre = presentacion.Nombre;
                 presentacionDTO.fechaCreacion = presentacion.FechaCreacion.ToString("dd/MM/yyyy");
                 presentacionDTO.usuarioCreador = presentacion.UsuarioCreador;
+                presentacionDTO.tiempoDeVida = presentacion.TiempoDeVida;
+                presentacionDTO.tipoTiempoDeVida = (int)presentacion.TipoTiempoDeVida;
+                presentacionDTO.tipoTiempoDeVidaDescripcion = presentacion.TipoTiempoDeVida.GetEnumDescription();
             }
             return presentacionDTO;
         }
@@ -116,6 +121,30 @@ namespace UnqMeterAPI.Services
                     _slydeRepository.Save();
                 }
             }
+        }
+
+        public Presentacion CompartirPresentacion(long id)
+        {
+            Presentacion presentacion = _presentacionRepository.FindBy(x => x.Id == id).First();
+
+            if(presentacion.FechaInicioPresentacion == null)
+            {
+                presentacion.FechaInicioPresentacion = DateTime.Now;
+
+                switch (presentacion.TipoTiempoDeVida)
+                {
+                    case TipoTiempoDeVida.DIA:
+                        presentacion.FechaFinPresentacion = presentacion.FechaInicioPresentacion.Value.AddDays(presentacion.TiempoDeVida);
+                        break;
+                    default:
+                        presentacion.FechaFinPresentacion = presentacion.FechaInicioPresentacion.Value.AddHours(presentacion.TiempoDeVida);
+                        break;
+                }
+            }
+
+            _presentacionRepository.Save();
+
+            return presentacion;
         }
 
         public IList<TipoPreguntaDTO> GetTipoPreguntas()
