@@ -55,6 +55,12 @@ namespace UnqMeterAPI.Controllers
             return Ok(slydes);
         }
 
+        [HttpGet("EstaVencidaLaPresentacion/{presentationId}")]
+        public IActionResult GetEstaVencidaLaPresentacion(int presentationId)
+        {
+            return Ok(_presentacionService.EstaVencidaLaPresentacion(presentationId));
+        }
+
         [HttpPost("PostNuevaPresentacion")]
         public IActionResult PostNuevaPresentacion([FromBody] PresentacionDTO presentacionDTO)
         {

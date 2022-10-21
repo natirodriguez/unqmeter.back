@@ -53,9 +53,62 @@ namespace UnqMeterAPI.Test
             Assert.AreEqual("Presentacion test", result.First().nombre);
         }
 
+        [Test]
+        public void SinFechaSeteada_CompartirPresentacion_SeteaCorrectamenteFechaInicioFin()
+        {
+            presentaciones.Add(GetPresentacion());
+            _repositoryPresentacionMocker.Setup(x => x.FindBy(x => x.Id == 1)).Returns(presentaciones.AsQueryable());
+            var result = _presentacionService.CompartirPresentacion(1);
+
+            Assert.IsNotNull(result.FechaInicioPresentacion);
+            Assert.IsNotNull(result.FechaFinPresentacion);
+            Assert.AreEqual(result.FechaInicioPresentacion.Value.AddDays(1), result.FechaFinPresentacion.Value);
+        }
+
+        [Test]
+        public void ConFechaSeteada_CompartirPresentacion_NoActualizaFecha()
+        {
+            Presentacion presentacion = GetPresentacionConFechas(-2, -1);
+            presentaciones.Add(presentacion);
+            _repositoryPresentacionMocker.Setup(x => x.FindBy(x => x.Id == 1)).Returns(presentaciones.AsQueryable());
+            var result = _presentacionService.CompartirPresentacion(1);
+
+            Assert.AreEqual(presentacion.FechaInicioPresentacion, result.FechaInicioPresentacion);
+            Assert.AreEqual(presentacion.FechaFinPresentacion, result.FechaFinPresentacion);
+        }
+
+        [Test]
+        public void FechaFinVencida_EstaVencidaLaPresentacion_True()
+        {
+            presentaciones.Add(GetPresentacionConFechas(-2,-1));
+            _repositoryPresentacionMocker.Setup(x => x.FindBy(x => x.Id == 1)).Returns(presentaciones.AsQueryable());
+            var result = _presentacionService.EstaVencidaLaPresentacion(1);
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void FechaFinVencida_EstaVencidaLaPresentacion_False()
+        {
+            presentaciones.Add(GetPresentacionConFechas(-1, 1));
+            _repositoryPresentacionMocker.Setup(x => x.FindBy(x => x.Id == 1)).Returns(presentaciones.AsQueryable());
+            var result = _presentacionService.EstaVencidaLaPresentacion(1);
+
+            Assert.IsFalse(result);
+        }
+
         private Presentacion GetPresentacion()
         {
-            return new Presentacion() { UsuarioCreador = USUARIO_CREADOR, Nombre = "Presentacion test" };
+            return new Presentacion() { UsuarioCreador = USUARIO_CREADOR, Nombre = "Presentacion test", TiempoDeVida=1, TipoTiempoDeVida = TipoTiempoDeVida.DIA };
+        }
+
+        private Presentacion GetPresentacionConFechas(int cantDiasInicio, int cantDiasFin)
+        {
+            Presentacion presentacion = GetPresentacion();
+            presentacion.FechaInicioPresentacion = DateTime.Now.AddDays(cantDiasInicio);
+            presentacion.FechaFinPresentacion = DateTime.Now.AddDays(cantDiasFin);
+
+            return presentacion; 
         }
     }
 }

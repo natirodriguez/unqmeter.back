@@ -12,9 +12,10 @@ namespace UnqMeterAPI.Interfaces
         Presentacion GetPresentationModel(int id);
         void ClonarPresentacion(long id);
         IList<TipoPreguntaDTO> GetTipoPreguntas();
-        Presentacion CompartirPresentacion(long id);
+        Presentacion CompartirPresentacion(int id);
         List<Slyde> GetSlydesByIdPresentacion(long idPresentacion);
         Slyde CrearNuevaSlyde(Presentacion presentacion, TipoPregunta? questionType);
+        bool EstaVencidaLaPresentacion(int id);
 
     }
 }

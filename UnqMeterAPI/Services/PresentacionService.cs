@@ -123,9 +123,9 @@ namespace UnqMeterAPI.Services
             }
         }
 
-        public Presentacion CompartirPresentacion(long id)
+        public Presentacion CompartirPresentacion(int id)
         {
-            Presentacion presentacion = _presentacionRepository.FindBy(x => x.Id == id).First();
+            Presentacion presentacion = GetPresentationModel(id);
 
             if(presentacion.FechaInicioPresentacion == null)
             {
@@ -147,6 +147,13 @@ namespace UnqMeterAPI.Services
             return presentacion;
         }
 
+        public bool EstaVencidaLaPresentacion(int id)
+        {
+            Presentacion presentacion = GetPresentationModel(id);
+
+            return presentacion.FechaFinPresentacion != null && DateTime.Now > presentacion.FechaFinPresentacion;
+        }
+
         public IList<TipoPreguntaDTO> GetTipoPreguntas()
         {
             var tipos = new Collection<TipoPreguntaDTO>();
@@ -158,6 +165,7 @@ namespace UnqMeterAPI.Services
 
             return tipos;
         }
+
         public Presentacion GetPresentationModel(int id)
         {
             return _presentacionRepository.FindBy(x => x.Id == id).First();
