@@ -32,7 +32,7 @@ namespace UnqMeterAPI.Test
             _repositorySlydeMocker.Setup(x => x.FindBy(x => x.Presentacion.Id == 1)).Returns(GetSlydesPresentacion1().AsQueryable());
             _repositoryRespuestaMocker.Setup(x => x.FindBy(x => x.Participante == participante)).Returns(GetRespuestas().AsQueryable());
 
-            var slydesSinRespuesta = _respuestaParticipanteService.GetSlydesNoRespondidas(1, participante);
+            var slydesSinRespuesta = _respuestaParticipanteService.GetSlydesSinRespuestas(1, participante);
 
             Assert.AreEqual(2, slydesSinRespuesta.Count);
             Assert.AreEqual(2, slydesSinRespuesta[0].Id);
@@ -45,7 +45,7 @@ namespace UnqMeterAPI.Test
             _repositorySlydeMocker.Setup(x => x.FindBy(x => x.Presentacion.Id == 2)).Returns(GetSlydesPresentacion2().AsQueryable());
             _repositoryRespuestaMocker.Setup(x => x.FindBy(x => x.Participante == participante)).Returns(GetRespuestas().AsQueryable());
 
-            var slydesSinRespuesta = _respuestaParticipanteService.GetSlydesNoRespondidas(2, participante);
+            var slydesSinRespuesta = _respuestaParticipanteService.GetSlydesSinRespuestas(2, participante);
 
             Assert.AreEqual(0, slydesSinRespuesta.Count);
         }

@@ -6,7 +6,7 @@
         public Slyde Slyde { get; set; }
         public string Participante { get; set; }
         public DateTime FechaCreacion { get; set; }
-        public string Descripcion { get; set; }
+        public string DescripcionGeneral { get; set; }
         public OpcionesSlyde OpcionElegida { get; set; }
 
     }

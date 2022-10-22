@@ -4,6 +4,6 @@ namespace UnqMeterAPI.Interfaces
 {
     public interface IRespuestaParticipanteService
     {
-        IList<Slyde> GetSlydesNoRespondidas(int idPresentacion, string ipUsuario);
+        IList<Slyde> GetSlydesSinRespuestas(int idPresentacion, string ipUsuario);
     }
 }
