@@ -86,6 +86,36 @@ namespace UnqMeterAPI.Services
 
             return slyde;
         }
+        public Slyde EditarSlyde(Presentacion presentacion, SlydeDTO slydeDto)
+        {
+            Slyde slyde = new Slyde()
+            {
+                Id = slydeDto.Id,
+                TipoPregunta = (TipoPregunta?)slydeDto.TipoPregunta,
+                FechaCreacion = slydeDto.FechaCreacion,
+                Presentacion = presentacion,
+                PreguntaRealizada = slydeDto.PreguntaRealizada,
+                CantMaxRespuestaParticipantes = slydeDto.CantMaxRespuestaParticipantes
+            };
+
+            _slydeRepository.Edit(slyde);
+            _slydeRepository.Save();
+
+            return slyde;
+        }
+
+        public Slyde? EliminarSlyde(int slydeId)
+        {
+            Slyde? slydeToDelete = _slydeRepository.FindBy(x => x.Id == slydeId).FirstOrDefault();
+
+            if(slydeToDelete != null)
+            {
+                _slydeRepository.Delete(slydeToDelete);
+                _slydeRepository.Save();
+            }
+
+            return slydeToDelete;
+        }
 
         public List<Slyde> GetSlydesByIdPresentacion(long idPresentacion)
         {

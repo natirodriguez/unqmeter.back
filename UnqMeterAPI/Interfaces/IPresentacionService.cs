@@ -15,6 +15,8 @@ namespace UnqMeterAPI.Interfaces
         Presentacion CompartirPresentacion(int id);
         List<Slyde> GetSlydesByIdPresentacion(long idPresentacion);
         Slyde CrearNuevaSlyde(Presentacion presentacion, TipoPregunta? questionType);
+        Slyde EditarSlyde(Presentacion presentacion,SlydeDTO slyde);
+        Slyde? EliminarSlyde(int slydeId);
         bool EstaVencidaLaPresentacion(int id);
 
     }

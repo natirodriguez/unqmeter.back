@@ -28,6 +28,15 @@ namespace UnqMeterAPI.Repository
             _repositoryContext.Add(t);
         }
 
+        public void Edit(T entity)
+        {
+            _repositoryContext.Entry(entity).State = EntityState.Modified;
+        }
+
+        public void Delete(T entity)
+        {
+            _repositoryContext.Set<T>().Remove(entity);
+        }
         public void Save() => _repositoryContext.SaveChanges();
     }
 }

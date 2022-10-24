@@ -16,7 +16,7 @@ namespace UnqMeterAPI.Controllers
         private readonly ILogger<PresentationController> _logger;
         private IPresentacionService _presentacionService;
 
-        public PresentationController(IMapper mapper, ILogger<PresentationController> logger, IRepositoryManager<Presentacion> presentacionRepository, IRepositoryManager<Slyde> slydeRepository, 
+        public PresentationController(IMapper mapper, ILogger<PresentationController> logger, IRepositoryManager<Presentacion> presentacionRepository, IRepositoryManager<Slyde> slydeRepository,
             IRepositoryManager<OpcionesSlyde> opcionesSlydeRepository)
         {
             _logger = logger;
@@ -26,7 +26,7 @@ namespace UnqMeterAPI.Controllers
         [HttpGet("GetMisPresentaciones/{email}")]
         public IActionResult GetMisPresentaciones(string email)
         {
-            IList<PresentacionDTO> presentacionesDTO = _presentacionService.GetMisPresentaciones(email); 
+            IList<PresentacionDTO> presentacionesDTO = _presentacionService.GetMisPresentaciones(email);
 
             return Ok(presentacionesDTO);
         }
@@ -95,7 +95,7 @@ namespace UnqMeterAPI.Controllers
         {
             try
             {
-                Presentacion presentacion = _presentacionService.CompartirPresentacion(id); 
+                Presentacion presentacion = _presentacionService.CompartirPresentacion(id);
                 return Ok(presentacion);
             }
             catch (Exception e)
@@ -111,10 +111,38 @@ namespace UnqMeterAPI.Controllers
             {
                 Presentacion presentacion = _presentacionService.GetPresentationModel(slyde.PresentacionId);
                 var questionType = (TipoPregunta?)slyde.TipoPregunta;
+                Slyde newSlyde = new Slyde();
 
-                Slyde newSlyde = _presentacionService.CrearNuevaSlyde(presentacion, questionType);
+                if (slyde.Id == 0)
+                {
+                    newSlyde = _presentacionService.CrearNuevaSlyde(presentacion, questionType);
+                }
+                else
+                {
+                    newSlyde = _presentacionService.EditarSlyde(presentacion, slyde);
+                }
 
                 return Ok(newSlyde);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.StackTrace);
+            }
+        }
+
+        [HttpDelete("DeleteSlyde/{slydeId}")]
+        public IActionResult DeleteSlyde(int slydeId)
+        {
+            try
+            {
+                Slyde? deleteSlyde = _presentacionService.EliminarSlyde(slydeId);
+
+                if (deleteSlyde == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(deleteSlyde);
             }
             catch (Exception e)
             {
