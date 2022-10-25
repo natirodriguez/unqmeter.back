@@ -32,7 +32,7 @@ namespace UnqMeterAPI.Services
 
             if (presentaciones.Count > 0)
                 presentacionesDTO = presentaciones.Select(x => new PresentacionDTO(x.Id, x.Nombre, x.FechaCreacion.ToString("dd/MM/yyyy"), x.UsuarioCreador, x.TiempoDeVida, 
-                    (int)x.TipoTiempoDeVida, x.TipoTiempoDeVida.GetEnumDescription())).ToList();
+                    (int)x.TipoTiempoDeVida, x.TipoTiempoDeVida.GetEnumDescription(), x.FechaInicioPresentacion, x.FechaFinPresentacion)).ToList();
 
             return presentacionesDTO;
         }
@@ -115,6 +115,26 @@ namespace UnqMeterAPI.Services
             }
 
             return slydeToDelete;
+        }
+
+        public Presentacion? EliminarPresentacion(int idPresentacion)
+        {
+            Presentacion? presentacionAEliminar = _presentacionRepository.FindBy(x => x.Id == idPresentacion).FirstOrDefault();
+
+            if (presentacionAEliminar != null)
+            {
+                List<Slyde> slydesAEliminar = GetSlydesByIdPresentacion(idPresentacion);
+
+                foreach(Slyde slyde in slydesAEliminar)
+                {
+                    EliminarSlyde(slyde.Id);
+                }
+
+                _presentacionRepository.Delete(presentacionAEliminar);
+                _presentacionRepository.Save();
+            }
+
+            return presentacionAEliminar;
         }
 
         public List<Slyde> GetSlydesByIdPresentacion(long idPresentacion)

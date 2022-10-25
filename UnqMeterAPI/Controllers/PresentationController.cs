@@ -149,5 +149,25 @@ namespace UnqMeterAPI.Controllers
                 throw new Exception(e.StackTrace);
             }
         }
+
+        [HttpDelete("DeletePresentacion/{presentacionId}")]
+        public IActionResult DeletePresentacion(int presentacionId)
+        {
+            try
+            {
+                Presentacion? eliminarPresentacion = _presentacionService.EliminarPresentacion(presentacionId);
+
+                if (eliminarPresentacion == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(eliminarPresentacion);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.StackTrace);
+            }
+        }
     }
 }
