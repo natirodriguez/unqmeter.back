@@ -77,9 +77,44 @@ dotnet run
 ```
 
 6. Inicie https://localhost:7054/swagger en su navegador para ver la interfaz de Swagger.
+
+<br/>
+
+## Instalación ambiente de desarollo con Docker
+
+### Prerequisitos
+Necesitamos tener instalado las siguientes herramientas:
+
+
+* [Docker](https://docs.docker.com)
+* [Docker Compose](https://docs.docker.com/compose/install/)
+
+Sigue estos pasos para instalar el ambiente de desarrollo con Docker:
+
+1. Clonar el repositorio [UnqMeterBack](https://github.com/natirodriguez/unqmeter.back)
+
+2. Abrir una consola en el directorio raiz del proyecto y ejecutar el siguiente comando:
+```sh
+docker compose up
+
+Para ejecutar el servicio en segundo plano puede utilizar el flag -d (para el modo "detached"):
+
+docker compose up -d
+
+Y con el comando "docker compose ps" puede ver lo que se esta ejecutando actualmente
+```
+3. Iniciar https://localhost:7054/swagger en su navegador para ver la interfaz de Swagger.
+
+4. Para detener los servicios utilice la siguiente instrucción:
+```sh
+docker compose stop
+```
+
 <br/>
 
 <h4>Diagrama de clases: </h4>
+
+<br/>
 
 ![Untitled Diagram (3)](https://user-images.githubusercontent.com/1548366/193464258-ee132e87-a796-4749-8006-175292dc06f0.jpg)
 

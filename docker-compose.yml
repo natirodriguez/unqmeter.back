@@ -3,6 +3,8 @@ version: '3.4'
 services:
   unqmeterapi:
     image: ${DOCKER_REGISTRY-}unqmeterapi
+    environment:
+        - ConnectionStrings__sqlConnection=server=db; database=UNQ_METER; User Id=sa; pwd=Unqmeter123*
     build:
       context: .
       dockerfile: UnqMeterAPI/Dockerfile
