@@ -13,10 +13,10 @@ namespace UnqMeterAPI.Controllers
     {
         private readonly ILogger<RespuestaParticipanteController> _logger;
         private IRespuestaParticipanteService _respuestaParticipanteService;
-        public RespuestaParticipanteController(IMapper mapper, ILogger<RespuestaParticipanteController> logger, IRepositoryManager<Respuesta> respuestaRepository, IRepositoryManager<Slyde> slydeRepository)
+        public RespuestaParticipanteController(IMapper mapper, ILogger<RespuestaParticipanteController> logger, IRepositoryManager<Respuesta> respuestaRepository, IRepositoryManager<Slyde> slydeRepository, IRepositoryManager<DescripcionRespuesta> descripcionRespuestaRepository)
         {
             _logger = logger;
-            _respuestaParticipanteService = new RespuestaParticipanteService(mapper, respuestaRepository, slydeRepository);
+            _respuestaParticipanteService = new RespuestaParticipanteService(mapper, respuestaRepository, slydeRepository, descripcionRespuestaRepository);
         }
 
         [HttpGet("GetSlydesSinRespuestas/{idPresentacion}/{ip}")]
@@ -27,5 +27,19 @@ namespace UnqMeterAPI.Controllers
             return Ok(slydes);
         }
 
+        [HttpPost("SaveRespuesta")]
+        public IActionResult SaveRespuesta([FromBody] RespuestaDTO respuestaDTO)
+        {
+            try
+            {
+                var respuesta = _respuestaParticipanteService.SaveRespuesta(respuestaDTO);
+
+                return Ok(respuesta);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.StackTrace);
+            }
+        }
     }
 }
