@@ -169,5 +169,25 @@ namespace UnqMeterAPI.Controllers
                 throw new Exception(e.StackTrace);
             }
         }
+
+        [HttpDelete("DeleteOptionSlyde/{optionSlydeId}")]
+        public IActionResult DeleteOptionSlyde(int optionSlydeId)
+        {
+            try
+            {
+                OpcionesSlyde? deleteOpcionSlyde = _presentacionService.DeleteOptionSlyde(optionSlydeId);
+
+                if (deleteOpcionSlyde == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(deleteOpcionSlyde);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.StackTrace);
+            }
+        }
     }
 }

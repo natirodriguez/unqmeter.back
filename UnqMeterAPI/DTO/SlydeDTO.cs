@@ -1,4 +1,6 @@
-﻿namespace UnqMeterAPI.DTO
+﻿using System.Collections.ObjectModel;
+
+namespace UnqMeterAPI.DTO
 {
     public class SlydeDTO
     {
@@ -8,5 +10,7 @@
         public int? TipoPregunta { get; set; }
         public DateTime FechaCreacion { get; set; }
         public int? CantMaxRespuestaParticipantes { get; set; }
+        public Collection<OpcionesSlydeDTO> OpcionesSlydes { get; set; }
+
     }
 }

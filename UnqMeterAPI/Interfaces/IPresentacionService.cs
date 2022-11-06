@@ -19,6 +19,7 @@ namespace UnqMeterAPI.Interfaces
         Slyde? EliminarSlyde(int slydeId);
         bool EstaVencidaLaPresentacion(int id);
         Presentacion? EliminarPresentacion(int idPresentacion);
-
+        OpcionesSlyde? DeleteOptionSlyde(int optionSlydeId);
+        
     }
 }

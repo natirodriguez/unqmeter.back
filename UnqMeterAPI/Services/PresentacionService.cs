@@ -101,6 +101,8 @@ namespace UnqMeterAPI.Services
             _slydeRepository.Edit(slyde);
             _slydeRepository.Save();
 
+            SaveOptions(slydeDto.OpcionesSlydes,slyde);
+
             return slyde;
         }
 
@@ -219,6 +221,42 @@ namespace UnqMeterAPI.Services
         public Presentacion GetPresentationModel(int id)
         {
             return _presentacionRepository.FindBy(x => x.Id == id).First();
+        }
+
+        public void SaveOptions(IList<OpcionesSlydeDTO> optionsSlydes, Slyde slyde)
+        {
+            foreach (var option in optionsSlydes)
+            {
+                OpcionesSlyde optionNew = new OpcionesSlyde();
+                optionNew.Id = option.Id;
+                optionNew.Slyde = slyde;
+                optionNew.Opcion = option.Opcion;
+
+                if (option.Id == 0)
+                {
+                    _opcionesSlydeRepository.Add(optionNew);
+                }
+                else
+                {
+                    _opcionesSlydeRepository.Edit(optionNew);
+                }
+
+                _opcionesSlydeRepository.Save();
+
+            }
+        }
+
+        public OpcionesSlyde? DeleteOptionSlyde(int optionSlydeId)
+        {
+            OpcionesSlyde? optionSlydeToDelete = _opcionesSlydeRepository.FindBy(x => x.Id == optionSlydeId).FirstOrDefault();
+
+            if (optionSlydeToDelete != null)
+            {
+                _opcionesSlydeRepository.Delete(optionSlydeToDelete);
+                _opcionesSlydeRepository.Save();
+            }
+
+            return optionSlydeToDelete;
         }
     }
 }
