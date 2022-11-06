@@ -2,8 +2,8 @@
 {
     public class DescripcionRespuestaDTO
     {
-        public int Id { get; set; }
-        public int RespuestaId { get; set; }
-        public string Descripcion { get; set; }
+        public int id { get; set; }
+        public int respuestaId { get; set; }
+        public string descripcion { get; set; }
     }
 }

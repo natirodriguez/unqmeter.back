@@ -12,6 +12,7 @@ namespace UnqMeterAPI.Test
         private Mock<IMapper> _mockMapper;
         private IRespuestaParticipanteService _respuestaParticipanteService;
         private Mock<IRepositoryManager<Respuesta>> _repositoryRespuestaMocker;
+        private Mock<IRepositoryManager<DescripcionRespuesta>> _repositoryDescripcionRespuestaMocker;
         private Mock<IRepositoryManager<Slyde>> _repositorySlydeMocker;
 
         const string participante = "1.1.1.1"; 
@@ -22,8 +23,9 @@ namespace UnqMeterAPI.Test
             _mockMapper = new Mock<IMapper>();
             _repositoryRespuestaMocker = new Mock<IRepositoryManager<Respuesta>>();
             _repositorySlydeMocker = new Mock<IRepositoryManager<Slyde>>();
+            _repositoryDescripcionRespuestaMocker = new Mock<IRepositoryManager<DescripcionRespuesta>>();
 
-            _respuestaParticipanteService = new RespuestaParticipanteService(_mockMapper.Object, _repositoryRespuestaMocker.Object, _repositorySlydeMocker.Object);
+            _respuestaParticipanteService = new RespuestaParticipanteService(_mockMapper.Object, _repositoryRespuestaMocker.Object, _repositorySlydeMocker.Object, _repositoryDescripcionRespuestaMocker.Object);
         }
   
         [Test]
