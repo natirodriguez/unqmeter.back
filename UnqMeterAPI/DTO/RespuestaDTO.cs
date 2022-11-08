@@ -6,5 +6,6 @@
         public int slydeId { get; set; }
         public string participante { get; set; }
         public List<DescripcionRespuestaDTO> descripcionesRespuesta { get; set; }
+        public string? descripcionGeneral { get; set; }
     }
 }

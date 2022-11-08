@@ -7,15 +7,13 @@ namespace UnqMeterAPI.Services
 {
     public class RespuestaParticipanteService : IRespuestaParticipanteService
     {
-        private readonly IMapper _mapper;
         private IRepositoryManager<Respuesta> _respuestaRepository;
         private IRepositoryManager<DescripcionRespuesta> _descripcionRepository;
         private IRepositoryManager<Slyde> _slydeRepository;
 
-        public RespuestaParticipanteService(IMapper mapper, IRepositoryManager<Respuesta> respuestaRepository, IRepositoryManager<Slyde> slydeRepository,
+        public RespuestaParticipanteService(IRepositoryManager<Respuesta> respuestaRepository, IRepositoryManager<Slyde> slydeRepository,
             IRepositoryManager<DescripcionRespuesta> descripcionRepository)
         {
-            _mapper = mapper;
             _respuestaRepository = respuestaRepository;
             _slydeRepository = slydeRepository;
             _descripcionRepository = descripcionRepository;
@@ -39,6 +37,7 @@ namespace UnqMeterAPI.Services
             respuesta.Participante = respuestaDTO.participante;
             respuesta.Slyde = slyde;
             respuesta.FechaCreacion = DateTime.Now;
+            respuesta.DescripcionGeneral = respuestaDTO.descripcionGeneral; 
 
             _respuestaRepository.Add(respuesta);
             _respuestaRepository.Save();
@@ -55,7 +54,7 @@ namespace UnqMeterAPI.Services
             return respuesta;
         }
 
-        public void SaveDescripcionRespuesta(List<DescripcionRespuestaDTO> descripcionesDTO, Respuesta respuesta)
+        private void SaveDescripcionRespuesta(List<DescripcionRespuestaDTO> descripcionesDTO, Respuesta respuesta)
         {
             foreach(DescripcionRespuestaDTO dto in descripcionesDTO)
             {

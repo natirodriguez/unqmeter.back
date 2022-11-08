@@ -9,7 +9,6 @@ namespace UnqMeterAPI.Test
     [TestFixture]
     public class RespuestaParticipanteServiceTest
     {
-        private Mock<IMapper> _mockMapper;
         private IRespuestaParticipanteService _respuestaParticipanteService;
         private Mock<IRepositoryManager<Respuesta>> _repositoryRespuestaMocker;
         private Mock<IRepositoryManager<DescripcionRespuesta>> _repositoryDescripcionRespuestaMocker;
@@ -20,12 +19,11 @@ namespace UnqMeterAPI.Test
         [SetUp]
         public void SetUp()
         {
-            _mockMapper = new Mock<IMapper>();
             _repositoryRespuestaMocker = new Mock<IRepositoryManager<Respuesta>>();
             _repositorySlydeMocker = new Mock<IRepositoryManager<Slyde>>();
             _repositoryDescripcionRespuestaMocker = new Mock<IRepositoryManager<DescripcionRespuesta>>();
 
-            _respuestaParticipanteService = new RespuestaParticipanteService(_mockMapper.Object, _repositoryRespuestaMocker.Object, _repositorySlydeMocker.Object, _repositoryDescripcionRespuestaMocker.Object);
+            _respuestaParticipanteService = new RespuestaParticipanteService(_repositoryRespuestaMocker.Object, _repositorySlydeMocker.Object, _repositoryDescripcionRespuestaMocker.Object);
         }
   
         [Test]

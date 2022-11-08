@@ -11,12 +11,10 @@ namespace UnqMeterAPI.Controllers
     [Route("api/[controller]")]
     public class RespuestaParticipanteController : ControllerBase
     {
-        private readonly ILogger<RespuestaParticipanteController> _logger;
         private IRespuestaParticipanteService _respuestaParticipanteService;
-        public RespuestaParticipanteController(IMapper mapper, ILogger<RespuestaParticipanteController> logger, IRepositoryManager<Respuesta> respuestaRepository, IRepositoryManager<Slyde> slydeRepository, IRepositoryManager<DescripcionRespuesta> descripcionRespuestaRepository)
+        public RespuestaParticipanteController(ILogger<RespuestaParticipanteController> logger, IRepositoryManager<Respuesta> respuestaRepository, IRepositoryManager<Slyde> slydeRepository, IRepositoryManager<DescripcionRespuesta> descripcionRespuestaRepository)
         {
-            _logger = logger;
-            _respuestaParticipanteService = new RespuestaParticipanteService(mapper, respuestaRepository, slydeRepository, descripcionRespuestaRepository);
+            _respuestaParticipanteService = new RespuestaParticipanteService(respuestaRepository, slydeRepository, descripcionRespuestaRepository);
         }
 
         [HttpGet("GetSlydesSinRespuestas/{idPresentacion}/{ip}")]
