@@ -17,6 +17,8 @@ RUN dotnet build "UnqMeterAPI.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "UnqMeterAPI.csproj" -c Release -o /app/publish
 
+RUN dotnet test
+
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
