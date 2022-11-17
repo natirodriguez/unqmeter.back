@@ -16,8 +16,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker build . --file UnqMeterAPI/Dockerfile --tag dockerfile:$(date +%s)
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+    
     - name: Install Required Tools
       run: |
         dotnet new tool-manifest
