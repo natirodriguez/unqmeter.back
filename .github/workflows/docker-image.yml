@@ -18,3 +18,15 @@ jobs:
       run: docker build . --file UnqMeterAPI/Dockerfile --tag dockerfile:$(date +%s)
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
+    - name: Install Required Tools
+      run: |
+        dotnet new tool-manifest
+        dotnet tool install dotnet-reportgenerator-globaltool
+        dotnet tool install dotnet-coverage
+
+    - name: Run the unit tests with code coverage
+      run: dotnet coverage collect dotnet test --output ${{ github.workspace }}/Tests/Coverage --output-format cobertura
+
+    - name: Generate Report
+      run: |
+        dotnet reportgenerator -reports:${{ github.workspace }}/Tests/Coverage.cobertura.xml -targetdir:"${{ github.workspace }}/Tests/coveragereport" -reporttypes:Html -assemblyfilters:+UnqMeterAPI
