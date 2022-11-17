@@ -27,7 +27,7 @@ jobs:
       run: |
         cd UnqMeterAPI
         dotnet coverage collect dotnet test --output ./Tests/Coverage --output-format cobertura
-
+        
     - name: Generate Report
       run: |
         dotnet reportgenerator -reports: ./Tests/Coverage.cobertura.xml -targetdir:"./Tests/CoverageReport" -reporttypes:Html -assemblyfilters:+UnqMeterAPI
