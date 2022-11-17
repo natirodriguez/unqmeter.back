@@ -24,8 +24,10 @@ jobs:
         dotnet tool install dotnet-coverage
 
     - name: Run the unit tests with code coverage
-      run: dotnet coverage collect dotnet test --output unqmeter.back/UnqMeterAPI/Tests/Coverage --output-format cobertura
+      run: |
+        cd UnqMeterAPI
+        dotnet coverage collect dotnet test --output ./Tests/Coverage --output-format cobertura
 
     - name: Generate Report
       run: |
-        dotnet reportgenerator -reports: unqmeter.back/UnqMeterAPI/Tests/Coverage.cobertura.xml -targetdir:"./Tests/CoverageReport" -reporttypes:Html -assemblyfilters:+UnqMeterAPI
+        dotnet reportgenerator -reports: ./Tests/Coverage.cobertura.xml -targetdir:"./Tests/CoverageReport" -reporttypes:Html -assemblyfilters:+UnqMeterAPI
