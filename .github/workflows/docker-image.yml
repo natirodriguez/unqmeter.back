@@ -30,4 +30,5 @@ jobs:
         
     - name: Generate Report
       run: |
+        cd UnqMeterAPI
         dotnet reportgenerator -reports: ./Tests/Coverage.cobertura.xml -targetdir:"./Tests/CoverageReport" -reporttypes:Html -assemblyfilters:+UnqMeterAPI
