@@ -19,6 +19,7 @@ jobs:
     
     - name: Install Required Tools
       run: |
+        cd UnqMeterAPI
         dotnet new tool-manifest
         dotnet tool install dotnet-reportgenerator-globaltool
         dotnet tool install dotnet-coverage
