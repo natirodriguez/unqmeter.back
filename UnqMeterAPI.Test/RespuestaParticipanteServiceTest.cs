@@ -15,6 +15,7 @@ namespace UnqMeterAPI.Test
         private Mock<IRepositoryManager<Respuesta>>? _repositoryRespuestaMocker;
         private Mock<IRepositoryManager<DescripcionRespuesta>>? _repositoryDescripcionRespuestaMocker;
         private Mock<IRepositoryManager<Slyde>>? _repositorySlydeMocker;
+        private Mock<IRepositoryManager<OpcionesSlyde>>? _repositoryOpcionSlydeMocker;
 
         const string participante = "1.1.1.1";
 
@@ -24,8 +25,10 @@ namespace UnqMeterAPI.Test
             _repositoryRespuestaMocker = new Mock<IRepositoryManager<Respuesta>>();
             _repositorySlydeMocker = new Mock<IRepositoryManager<Slyde>>();
             _repositoryDescripcionRespuestaMocker = new Mock<IRepositoryManager<DescripcionRespuesta>>();
+            _repositoryOpcionSlydeMocker = new Mock<IRepositoryManager<OpcionesSlyde>>();
 
-            _respuestaParticipanteService = new RespuestaParticipanteService(_repositoryRespuestaMocker.Object, _repositorySlydeMocker.Object, _repositoryDescripcionRespuestaMocker.Object);
+            _respuestaParticipanteService = new RespuestaParticipanteService(_repositoryRespuestaMocker.Object, _repositorySlydeMocker.Object, _repositoryDescripcionRespuestaMocker.Object,
+                _repositoryOpcionSlydeMocker.Object);
         }
 
         public Mock<IRepositoryManager<Slyde>>? Get_repositorySlydeMocker()

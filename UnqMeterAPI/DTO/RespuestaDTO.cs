@@ -7,5 +7,6 @@
         public string participante { get; set; }
         public List<DescripcionRespuestaDTO> descripcionesRespuesta { get; set; }
         public string? descripcionGeneral { get; set; }
+        public int? opcionElegidaId { get; set; }
     }
 }

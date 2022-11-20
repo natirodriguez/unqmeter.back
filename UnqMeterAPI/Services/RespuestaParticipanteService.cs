@@ -10,23 +10,35 @@ namespace UnqMeterAPI.Services
         private IRepositoryManager<Respuesta> _respuestaRepository;
         private IRepositoryManager<DescripcionRespuesta> _descripcionRepository;
         private IRepositoryManager<Slyde> _slydeRepository;
+        private IRepositoryManager<OpcionesSlyde> _opcionesSlydeRepository; 
 
         public RespuestaParticipanteService(IRepositoryManager<Respuesta> respuestaRepository, IRepositoryManager<Slyde> slydeRepository,
-            IRepositoryManager<DescripcionRespuesta> descripcionRepository)
+            IRepositoryManager<DescripcionRespuesta> descripcionRepository, IRepositoryManager<OpcionesSlyde> opcionesSlydeRepository)
         {
             _respuestaRepository = respuestaRepository;
             _slydeRepository = slydeRepository;
             _descripcionRepository = descripcionRepository;
+            _opcionesSlydeRepository = opcionesSlydeRepository; 
         }
 
         public IList<Slyde> GetSlydesSinRespuestas(int idPresentacion, string ipUsuario)
         {
             var slydes = _slydeRepository.FindBy(x => x.Presentacion.Id == idPresentacion).ToList();
-            var respuestas = _respuestaRepository.FindBy(y => y.Participante == ipUsuario).ToList();
 
-            var slydesSinRespuestas = slydes.Where(f1 => respuestas.All(f2 => f2.Slyde.Id != f1.Id));
+            var slydesSinRespuestas = new List<Slyde>();
+            foreach (var slyde in slydes)
+            {
+                var respuestasParticipante = _respuestaRepository.FindBy(y => y.Participante == ipUsuario).ToList();
+                var respuesta = respuestasParticipante.Where(x => x.Slyde.Id == slyde.Id).FirstOrDefault(); 
 
-            return slydesSinRespuestas.ToList();
+                if(respuesta == null)
+                {
+                    slyde.OpcionesSlydes = _opcionesSlydeRepository.FindBy(x => x.Slyde.Id == slyde.Id).ToList();
+                    slydesSinRespuestas.Add(slyde);
+                }
+            }
+
+            return slydesSinRespuestas;
         }
 
         public Respuesta SaveRespuesta(RespuestaDTO respuestaDTO)
@@ -37,7 +49,13 @@ namespace UnqMeterAPI.Services
             respuesta.Participante = respuestaDTO.participante;
             respuesta.Slyde = slyde;
             respuesta.FechaCreacion = DateTime.Now;
-            respuesta.DescripcionGeneral = respuestaDTO.descripcionGeneral; 
+            respuesta.DescripcionGeneral = respuestaDTO.descripcionGeneral;
+
+            if(slyde.TipoPregunta == Enums.TipoPregunta.MULTIPLE_CHOICE)
+            {
+                var opcionSlyde = _opcionesSlydeRepository.FindBy(x => x.Id == respuestaDTO.opcionElegidaId).FirstOrDefault();
+                respuesta.OpcionElegida = opcionSlyde;
+            }
 
             _respuestaRepository.Add(respuesta);
             _respuestaRepository.Save();
