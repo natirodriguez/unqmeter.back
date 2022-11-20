@@ -17,19 +17,20 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file UnqMeterAPI/Dockerfile --tag dockerfile:$(date +%s)
     
-    - name: Install Required Tools
+    - name: Restore dependencies
+      run: | 
+        cd UnqMeterAPI.Test
+        dotnet restore
+      
+    - name: Build
       run: |
-        cd UnqMeterAPI
-        dotnet new tool-manifest
-        dotnet tool install dotnet-reportgenerator-globaltool
-        dotnet tool install dotnet-coverage
-
-    - name: Run the unit tests with code coverage
+        cd UnqMeterAPI.Test
+        dotnet build --no-restore /p:ContinuousIntegrationBuild=true
+      
+    - name: Test
       run: |
-        cd UnqMeterAPI
-        dotnet coverage collect dotnet test --output ./Tests/Coverage --output-format cobertura
-        
-    - name: Generate Report
-      run: |
-        cd UnqMeterAPI
-        dotnet reportgenerator -reports: ./Tests/Coverage.cobertura.xml -targetdir:"./Tests/CoverageReport" -reporttypes:Html -assemblyfilters:+UnqMeterAPI
+        cd UnqMeterAPI.Test
+        dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      
+    - name: Codecov
+      uses: codecov/codecov-action@v3
