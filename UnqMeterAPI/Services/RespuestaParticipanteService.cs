@@ -29,7 +29,7 @@ namespace UnqMeterAPI.Services
             foreach (var slyde in slydes)
             {
                 var respuestasParticipante = _respuestaRepository.FindBy(y => y.Participante == ipUsuario).ToList();
-                var respuesta = respuestasParticipante.Where(x => x.Slyde.Id == slyde.Id).FirstOrDefault(); 
+                var respuesta = respuestasParticipante.Where(x => x.Slyde != null && x.Slyde.Id == slyde.Id).FirstOrDefault(); 
 
                 if(respuesta == null)
                 {
@@ -63,6 +63,9 @@ namespace UnqMeterAPI.Services
             switch (slyde.TipoPregunta)
             {
                 case Enums.TipoPregunta.WORK_CLOUD:
+                    SaveDescripcionRespuesta(respuestaDTO.descripcionesRespuesta, respuesta);
+                    break;
+                case Enums.TipoPregunta.RANKING:
                     SaveDescripcionRespuesta(respuestaDTO.descripcionesRespuesta, respuesta);
                     break;
                 default:
