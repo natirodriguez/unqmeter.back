@@ -28,7 +28,8 @@ namespace UnqMeterAPI.Migrations
                         name: "FK_Slyde_Presentaciones_PresentacionId",
                         column: x => x.PresentacionID,
                         principalTable: "Presentaciones",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
         }
 

@@ -24,7 +24,8 @@ namespace UnqMeterAPI.Migrations
                        name: "FK_DescripcionRespuestas_Respuesta_RespuestaId",
                        column: x => x.RespuestaId,
                        principalTable: "Respuestas",
-                       principalColumn: "Id");
+                       principalColumn: "Id",
+                       onDelete: ReferentialAction.Cascade);
                });
         }
 

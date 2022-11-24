@@ -142,11 +142,11 @@ namespace UnqMeterAPI.Controllers
                     return NotFound();
                 }
 
-                return Ok(deleteSlyde);
+                return NoContent();
             }
             catch (Exception e)
             {
-                throw new Exception(e.StackTrace);
+                return StatusCode(500, e.Message);
             }
         }
 

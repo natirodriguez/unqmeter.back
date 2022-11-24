@@ -27,7 +27,8 @@ namespace UnqMeterAPI.Migrations
                         name: "FK_Respuestas_Slydes_SlydeId",
                         column: x => x.SlydeId,
                         principalTable: "Slydes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Respuestas_OpcionesSlydes_OpcionElegidaId",
                         column: x => x.OpcionElegidaId,
