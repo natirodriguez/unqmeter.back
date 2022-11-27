@@ -11,6 +11,6 @@ namespace UnqMeterAPI.DTO
         public DateTime FechaCreacion { get; set; }
         public int? CantMaxRespuestaParticipantes { get; set; }
         public Collection<OpcionesSlydeDTO> OpcionesSlydes { get; set; }
-
+        public bool HabilitadoParaResponder { get; set; }
     }
 }
