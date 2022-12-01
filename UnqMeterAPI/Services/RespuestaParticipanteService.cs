@@ -63,7 +63,7 @@ namespace UnqMeterAPI.Services
 
             switch (slyde.TipoPregunta)
             {
-                case Enums.TipoPregunta.WORK_CLOUD:
+                case Enums.TipoPregunta.WORD_CLOUD:
                     SaveDescripcionRespuesta(respuestaDTO.descripcionesRespuesta, respuesta);
                     break;
                 case Enums.TipoPregunta.RANKING:

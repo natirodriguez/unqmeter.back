@@ -71,7 +71,7 @@ namespace UnqMeterAPI.Services
             _presentacionRepository.Add(presentacion);
             _presentacionRepository.Save();
 
-            CrearNuevaSlyde(presentacion, TipoPregunta.WORK_CLOUD);
+            CrearNuevaSlyde(presentacion, TipoPregunta.WORD_CLOUD);
 
             return presentacion;
         }
@@ -217,7 +217,7 @@ namespace UnqMeterAPI.Services
             var tipos = new Collection<TipoPreguntaDTO>();
 
             tipos.Add(new TipoPreguntaDTO() { Descripcion = TipoPregunta.MULTIPLE_CHOICE.GetEnumDescription(), Codigo = TipoPregunta.MULTIPLE_CHOICE});
-            tipos.Add(new TipoPreguntaDTO() { Descripcion = TipoPregunta.WORK_CLOUD.GetEnumDescription(), Codigo = TipoPregunta.WORK_CLOUD });
+            tipos.Add(new TipoPreguntaDTO() { Descripcion = TipoPregunta.WORD_CLOUD.GetEnumDescription(), Codigo = TipoPregunta.WORD_CLOUD });
             tipos.Add(new TipoPreguntaDTO() { Descripcion = TipoPregunta.RANKING.GetEnumDescription(), Codigo = TipoPregunta.RANKING });
             tipos.Add(new TipoPreguntaDTO() { Descripcion = TipoPregunta.TEXTO_ABIERTO.GetEnumDescription(), Codigo = TipoPregunta.TEXTO_ABIERTO });
 

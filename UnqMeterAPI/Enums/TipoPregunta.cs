@@ -8,8 +8,8 @@ namespace UnqMeterAPI.Enums
         INDEFINIDO = 0,
         [Description("Multiple choice")]
         MULTIPLE_CHOICE = 1,
-        [Description("Work Cloud")]
-        WORK_CLOUD = 2,
+        [Description("Word Cloud")]
+        WORD_CLOUD = 2,
         [Description("Ranking")]
         RANKING = 3,
         [Description("Texto abierto")]
