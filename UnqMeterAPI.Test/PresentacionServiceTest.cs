@@ -18,6 +18,8 @@ namespace UnqMeterAPI.Test
         private Mock<IRepositoryManager<Presentacion>>? _repositoryPresentacionMocker;
         private Mock<IRepositoryManager<Slyde>>? _repositorySlydeMocker;
         private Mock<IRepositoryManager<OpcionesSlyde>>? _repositoryOpcionesSlydeMocker;
+        private Mock<IRepositoryManager<Respuesta>>? _repositoryRespuestaMocker;
+        private Mock<IRepositoryManager<DescripcionRespuesta>>? _repositoryDescripcionRespuestaMocker;
 
         IList<Presentacion> presentaciones = new List<Presentacion>();
         string USUARIO_CREADOR = "practicas.des.soft@mail.com";
@@ -29,8 +31,11 @@ namespace UnqMeterAPI.Test
             _repositoryPresentacionMocker = new Mock<IRepositoryManager<Presentacion>>();
             _repositorySlydeMocker = new Mock<IRepositoryManager<Slyde>>();
             _repositoryOpcionesSlydeMocker = new Mock<IRepositoryManager<OpcionesSlyde>>();
+            _repositoryRespuestaMocker = new Mock<IRepositoryManager<Respuesta>>();
+            _repositoryDescripcionRespuestaMocker = new Mock<IRepositoryManager<DescripcionRespuesta>>();
 
-            _presentacionService = new PresentacionService(_mockMapper.Object, _repositoryPresentacionMocker.Object, _repositorySlydeMocker.Object, _repositoryOpcionesSlydeMocker.Object);
+            _presentacionService = new PresentacionService(_mockMapper.Object, _repositoryPresentacionMocker.Object, _repositorySlydeMocker.Object, _repositoryOpcionesSlydeMocker.Object, _repositoryRespuestaMocker.Object, 
+                                                           _repositoryDescripcionRespuestaMocker.Object);
 
             presentaciones = new List<Presentacion>();
         }
