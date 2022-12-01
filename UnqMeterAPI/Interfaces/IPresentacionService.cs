@@ -20,6 +20,7 @@ namespace UnqMeterAPI.Interfaces
         bool EstaVencidaLaPresentacion(int id);
         Presentacion? EliminarPresentacion(int idPresentacion);
         OpcionesSlyde? DeleteOptionSlyde(int optionSlydeId);
-        
+        List<SlydeDTO> GetSlydesAnswersByIdPresentacion(int idPresentacion);
+
     }
 }

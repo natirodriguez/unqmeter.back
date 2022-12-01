@@ -14,14 +14,18 @@ namespace UnqMeterAPI.Services
         private IRepositoryManager<Presentacion> _presentacionRepository;
         private IRepositoryManager<Slyde> _slydeRepository;
         private IRepositoryManager<OpcionesSlyde> _opcionesSlydeRepository;
+        private IRepositoryManager<Respuesta> _respuestaRepository;
+        private IRepositoryManager<DescripcionRespuesta> _descripcionRepository;
 
         public PresentacionService(IMapper mapper, IRepositoryManager<Presentacion> presentacionRepository, IRepositoryManager<Slyde> slydeRepository,
-            IRepositoryManager<OpcionesSlyde> opcionesSlydeRepository)
+            IRepositoryManager<OpcionesSlyde> opcionesSlydeRepository, IRepositoryManager<Respuesta> respuestaRepository, IRepositoryManager<DescripcionRespuesta> descripcionRepository)
         {
             _mapper = mapper;
             _presentacionRepository = presentacionRepository;
             _slydeRepository = slydeRepository;
             _opcionesSlydeRepository = opcionesSlydeRepository;
+            _respuestaRepository = respuestaRepository;
+            _descripcionRepository = descripcionRepository;
         }
 
         public IList<PresentacionDTO> GetMisPresentaciones(string email)
@@ -257,6 +261,43 @@ namespace UnqMeterAPI.Services
             }
 
             return optionSlydeToDelete;
+        }
+
+        public List<SlydeDTO> GetSlydesAnswersByIdPresentacion(int idPresentacion)
+        {
+            List<Slyde> slydes = _slydeRepository.FindBy(x => x.Presentacion.Id == idPresentacion).ToList();
+            var slydesDTO = _mapper.Map<List<SlydeDTO>>(slydes);
+
+            foreach (SlydeDTO slyde in slydesDTO)
+            {
+                var opcionesSlydes = GetOpcionesByIdSlyde(slyde.Id);
+                var opcionesSlydesDTO = _mapper.Map<Collection<OpcionesSlydeDTO>>(opcionesSlydes);
+                slyde.OpcionesSlydes = opcionesSlydesDTO;
+
+                var respuestas = _respuestaRepository.FindBy(x => x.Slyde != null && x.Slyde.Id == slyde.Id);
+                var respuestasDTO = _mapper.Map<Collection<RespuestaDTO>>(respuestas);
+                //var descriptions = GetDescriptionAnswwer(respuestasDTO);
+                GetDescriptionAnswwer(respuestasDTO);
+                slyde.Respuestas = respuestasDTO;
+            }
+
+            return slydesDTO;
+        }
+
+        public void GetDescriptionAnswwer (Collection<RespuestaDTO> answers)
+        {
+            List<DescripcionRespuesta> descriptions = new List<DescripcionRespuesta>();
+
+            foreach (RespuestaDTO answer in answers)
+            {
+                var descriptionAnswer = _descripcionRepository.FindBy(x => x.Respuesta.Id == answer.id).ToList();
+                var descriptionsDTO = _mapper.Map<List<DescripcionRespuestaDTO>>(descriptionAnswer);
+
+                if (descriptionsDTO != null)
+                {
+                    answer.descripcionesRespuesta = descriptionsDTO;
+                }
+            }
         }
     }
 }

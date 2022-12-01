@@ -17,10 +17,10 @@ namespace UnqMeterAPI.Controllers
         private IPresentacionService _presentacionService;
 
         public PresentationController(IMapper mapper, ILogger<PresentationController> logger, IRepositoryManager<Presentacion> presentacionRepository, IRepositoryManager<Slyde> slydeRepository,
-            IRepositoryManager<OpcionesSlyde> opcionesSlydeRepository)
+            IRepositoryManager<OpcionesSlyde> opcionesSlydeRepository, IRepositoryManager<Respuesta> respuestaRepository, IRepositoryManager<DescripcionRespuesta> descripcionRepository)
         {
             _logger = logger;
-            _presentacionService = new PresentacionService(mapper, presentacionRepository, slydeRepository, opcionesSlydeRepository);
+            _presentacionService = new PresentacionService(mapper, presentacionRepository, slydeRepository, opcionesSlydeRepository,respuestaRepository, descripcionRepository);
         }
 
         [HttpGet("GetMisPresentaciones/{email}")]
@@ -59,6 +59,14 @@ namespace UnqMeterAPI.Controllers
         public IActionResult GetEstaVencidaLaPresentacion(int presentationId)
         {
             return Ok(_presentacionService.EstaVencidaLaPresentacion(presentationId));
+        }
+
+        [HttpGet("GetSlydesAnswersByIdPresentation/{presentationId}")]
+        public IActionResult GetSlydesAnswersByIdPresentation(int presentationId)
+        {
+            IList<SlydeDTO> slydes = _presentacionService.GetSlydesAnswersByIdPresentacion(presentationId);
+
+            return Ok(slydes);
         }
 
         [HttpPost("PostNuevaPresentacion")]

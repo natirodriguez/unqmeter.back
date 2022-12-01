@@ -75,6 +75,14 @@ namespace UnqMeterAPI.Services
             return respuesta;
         }
 
+        public List<DescripcionRespuesta>? GetDescriptionAnswer (int answerId)
+        {
+            List<DescripcionRespuesta>? answersDescription = new List<DescripcionRespuesta>();
+            answersDescription = _descripcionRepository?.FindBy(x => x.Respuesta.Id == answerId).ToList();
+            
+            return answersDescription;
+        }
+
         private void SaveDescripcionRespuesta(List<DescripcionRespuestaDTO> descripcionesDTO, Respuesta respuesta)
         {
             foreach(DescripcionRespuestaDTO dto in descripcionesDTO)
