@@ -13,5 +13,6 @@ namespace UnqMeterAPI.DTO
         public Collection<OpcionesSlydeDTO> OpcionesSlydes { get; set; }
         public Collection<RespuestaDTO>? Respuestas { get; set; }
 
+        public bool HabilitadoParaResponder { get; set; }
     }
 }

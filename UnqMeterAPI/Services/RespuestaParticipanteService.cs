@@ -24,9 +24,10 @@ namespace UnqMeterAPI.Services
         public IList<Slyde> GetSlydesSinRespuestas(int idPresentacion, string ipUsuario)
         {
             var slydes = _slydeRepository.FindBy(x => x.Presentacion.Id == idPresentacion).ToList();
+            var slydesHabilitadas = slydes.Where(x => x.HabilitadoParaResponder).ToList();
 
             var slydesSinRespuestas = new List<Slyde>();
-            foreach (var slyde in slydes)
+            foreach (var slyde in slydesHabilitadas)
             {
                 var respuestasParticipante = _respuestaRepository.FindBy(y => y.Participante == ipUsuario).ToList();
                 var respuesta = respuestasParticipante.Where(x => x.Slyde != null && x.Slyde.Id == slyde.Id).FirstOrDefault(); 

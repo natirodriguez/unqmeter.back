@@ -82,7 +82,8 @@ namespace UnqMeterAPI.Services
             {
                 TipoPregunta = questionType,
                 FechaCreacion = DateTime.Now,
-                Presentacion = presentacion
+                Presentacion = presentacion, 
+                HabilitadoParaResponder = false
             };
 
             _slydeRepository.Add(slyde);
@@ -99,7 +100,8 @@ namespace UnqMeterAPI.Services
                 FechaCreacion = slydeDto.FechaCreacion,
                 Presentacion = presentacion,
                 PreguntaRealizada = slydeDto.PreguntaRealizada,
-                CantMaxRespuestaParticipantes = slydeDto.CantMaxRespuestaParticipantes
+                CantMaxRespuestaParticipantes = slydeDto.CantMaxRespuestaParticipantes, 
+                HabilitadoParaResponder = slydeDto.HabilitadoParaResponder
             };
 
             _slydeRepository.Edit(slyde);

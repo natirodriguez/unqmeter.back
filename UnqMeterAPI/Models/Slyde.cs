@@ -10,6 +10,7 @@ namespace UnqMeterAPI.Models
         public TipoPregunta? TipoPregunta { get; set; }
         public DateTime FechaCreacion { get; set; }
         public int? CantMaxRespuestaParticipantes { get; set; }
+        public bool HabilitadoParaResponder { get; set; }
 
         public IList<OpcionesSlyde> OpcionesSlydes { get; set; }
 
