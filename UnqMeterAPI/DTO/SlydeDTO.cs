@@ -14,5 +14,6 @@ namespace UnqMeterAPI.DTO
         public Collection<RespuestaDTO>? Respuestas { get; set; }
 
         public bool HabilitadoParaResponder { get; set; }
+        public List<Answer>? Answers { get; set; }
     }
 }

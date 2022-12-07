@@ -278,28 +278,39 @@ namespace UnqMeterAPI.Services
 
                 var respuestas = _respuestaRepository.FindBy(x => x.Slyde != null && x.Slyde.Id == slyde.Id);
                 var respuestasDTO = _mapper.Map<Collection<RespuestaDTO>>(respuestas);
-                //var descriptions = GetDescriptionAnswwer(respuestasDTO);
-                GetDescriptionAnswwer(respuestasDTO);
+
                 slyde.Respuestas = respuestasDTO;
+                slyde.Answers = GetDescriptionAnswwer(respuestasDTO, slyde.TipoPregunta);
+
             }
 
             return slydesDTO;
         }
 
-        public void GetDescriptionAnswwer (Collection<RespuestaDTO> answers)
+        public List<Answer> GetDescriptionAnswwer (Collection<RespuestaDTO> answers, int? slydeType)
         {
             List<DescripcionRespuesta> descriptions = new List<DescripcionRespuesta>();
+            List<Answer> descriptionsResult = new List<Answer>();
 
             foreach (RespuestaDTO answer in answers)
             {
                 var descriptionAnswer = _descripcionRepository.FindBy(x => x.Respuesta.Id == answer.id).ToList();
                 var descriptionsDTO = _mapper.Map<List<DescripcionRespuestaDTO>>(descriptionAnswer);
 
-                if (descriptionsDTO != null)
-                {
-                    answer.descripcionesRespuesta = descriptionsDTO;
-                }
+                answer.descripcionesRespuesta = descriptionsDTO;
+                descriptions.AddRange(descriptionAnswer);
             }
+
+            switch (slydeType)
+            {
+                case 2:
+                    descriptionsResult = descriptions.GroupBy(n => n.Descripcion).Select(group => new Answer { text = group.Key, weight = (decimal)group.Count() / (decimal) 2 }).ToList();
+                    break;
+                default:
+                    break;
+            }
+
+            return descriptionsResult;
         }
     }
 }
