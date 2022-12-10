@@ -280,37 +280,62 @@ namespace UnqMeterAPI.Services
                 var respuestasDTO = _mapper.Map<Collection<RespuestaDTO>>(respuestas);
 
                 slyde.Respuestas = respuestasDTO;
-                slyde.Answers = GetDescriptionAnswwer(respuestasDTO, slyde.TipoPregunta);
+                slyde.Answers = GetDescriptionAnswwer(respuestasDTO, slyde.TipoPregunta,opcionesSlydesDTO);
 
             }
 
             return slydesDTO;
         }
 
-        public List<Answer> GetDescriptionAnswwer (Collection<RespuestaDTO> answers, int? slydeType)
+        public List<Answer> GetDescriptionAnswwer (Collection<RespuestaDTO> answers, int? slydeType, Collection<OpcionesSlydeDTO> optionsSlydes)
         {
             List<DescripcionRespuesta> descriptions = new List<DescripcionRespuesta>();
             List<Answer> descriptionsResult = new List<Answer>();
+            List<OpcionesSlyde> options = new List<OpcionesSlyde>();
 
             foreach (RespuestaDTO answer in answers)
             {
+                 
                 var descriptionAnswer = _descripcionRepository.FindBy(x => x.Respuesta.Id == answer.id).ToList();
                 var descriptionsDTO = _mapper.Map<List<DescripcionRespuestaDTO>>(descriptionAnswer);
 
                 answer.descripcionesRespuesta = descriptionsDTO;
                 descriptions.AddRange(descriptionAnswer);
+
+                if (slydeType == 1)
+                {
+                    var optionsAnswer = _opcionesSlydeRepository.FindBy(x => x.Id == answer.opcionElegidaId).ToList();
+                    options.AddRange(optionsAnswer);
+                }
             }
 
             switch (slydeType)
             {
+                case 1:
+                    descriptionsResult = optionsSlydes.GroupBy(n => n).Select(group => new Answer { text = group.Key.Opcion, weight = GetOptionsCant(options,group.Key.Id) } ).ToList();
+                    break;
                 case 2:
                     descriptionsResult = descriptions.GroupBy(n => n.Descripcion).Select(group => new Answer { text = group.Key, weight = (decimal)group.Count() / (decimal) 2 }).ToList();
+                    break;
+                case 3:
+                    descriptionsResult = descriptions.GroupBy(n => n.Descripcion).Select(group => new Answer { text = group.Key, weight = group.Count() } ).ToList();
+                    break;
+                case 4:
+                    descriptionsResult = answers.GroupBy(n => n.descripcionGeneral).Select(group => new Answer { text = group.Key, weight = group.Count() }).ToList();
                     break;
                 default:
                     break;
             }
 
             return descriptionsResult;
+        }
+
+        private decimal GetOptionsCant(List<OpcionesSlyde> options, int optionId)
+        {
+            var optionsCant = options.GroupBy(x => x.Id).Select(group => new Answer { text = group.Key.ToString(), weight = group.Count() }).ToList();
+            var cant = optionsCant.FirstOrDefault(x => x.text == optionId.ToString()) == null ? 0 : optionsCant.First(x => x.text == optionId.ToString()).weight;
+
+            return cant;
         }
     }
 }
